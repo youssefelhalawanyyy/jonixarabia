@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "siteName": "Jonix Arabia | Egypt & Middle East",
+    "tagline": "Advanced Air & Surface Sanitization"
+  },
+  "header": {
+    "technology": "Technology",
+    "electrostatic": "Electrostatic",
+    "products": "Products",
+    "certifications": "Certifications",
+    "installations": "Installations",
+    "applications": "Applications",
+    "mena": "MENA",
+    "contact": "Contact",
+    "consultation": "Request Consultation",
+    "productMenuTitle": "Product Lines",
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "eyebrow": "Engineered in Italy · Medical & Industrial IAQ",
+    "title": "Advanced Air & Surface Sanitization",
+    "subtitle": "Bilingual corporate platform for Jonix Arabia in Egypt and the Middle East built on official Jonix technology, products and certifications.",
+    "ctaPrimary": "Request Technical Consultation",
+    "ctaSecondary": "Explore Products",
+    "stats": {
+      "s1": "up to 99.9999% viral load reduction in published test",
+      "s2": "up to 99.99% pollutant reduction in published test",
+      "s3": "EU declarations and downloadable technical files"
+    }
+  },
+  "technology": {
+    "title": "Non-Thermal Plasma Technology",
+    "subtitle": "Jonix NTP systems activate air with reactive species designed to reduce microorganisms and pollutants while operating continuously in occupied spaces.",
+    "infographicTitle": "Technology Flow",
+    "step1": "Intake & ionization",
+    "step2": "Reactive species generation",
+    "step3": "Biocidal / virucidal action",
+    "step4": "Continuous ambient sanitization"
+  },
+  "electrostatic": {
+    "title": "Electrostatic Crystal Filter",
+    "subtitle": "Technical export summary covering operation principle, germicidal effect, targeted contaminants and lifecycle advantages.",
+    "overviewTitle": "Technology Overview",
+    "operationTitle": "Operating Principle",
+    "germicidalTitle": "Germicidal Effect",
+    "pathogensTitle": "Pathogens & Allergens Targeted",
+    "advantagesTitle": "Advantages Over Mechanical Filtration"
+  },
+  "performance": {
+    "title": "Certified Performance & Validation",
+    "subtitle": "Published official testing and certification results"
+  },
+  "products": {
+    "title": "Official Product Portfolio",
+    "subtitle": "Model-level technical sheets extracted from official Jonix pages",
+    "lineCta": "View line",
+    "modelCta": "Open technical page",
+    "allModels": "All Models",
+    "officialSource": "Official source"
+  },
+  "productDetail": {
+    "back": "Back to products",
+    "techData": "Technical data",
+    "downloads": "Downloads",
+    "certifications": "Certifications",
+    "notPublished": "Not published on official public page",
+    "coverageArea": "Coverage area",
+    "coverageVolume": "Coverage volume",
+    "airflow": "Airflow",
+    "power": "Power consumption",
+    "dimensions": "Dimensions",
+    "weight": "Weight",
+    "voltage": "Voltage",
+    "installation": "Installation type",
+    "line": "Product line",
+    "source": "Official source page"
+  },
+  "certifications": {
+    "title": "Certifications & Compliance",
+    "subtitle": "Laboratory, conformity and sustainability references published by Jonix",
+    "standardsTitle": "Standards & Guideline References",
+    "standardsSubtitle": "WHO, CDC and ISO references cited in regional documentation context"
+  },
+  "installations": {
+    "title": "Where Devices Are Operating",
+    "subtitle": "Current medical and professional deployment references",
+    "authorizationTitle": "Egypt Authorization",
+    "fieldTitle": "Egypt Field Validation"
+  },
+  "applications": {
+    "title": "Industries & Applications",
+    "subtitle": "Official sectors and practical deployment environments"
+  },
+  "mena": {
+    "title": "Jonix Arabia in Egypt & The Middle East",
+    "subtitle": "Regional adaptation for IAQ priorities, HVAC reliance and high-density occupancy"
+  },
+  "contact": {
+    "title": "Technical Consultation",
+    "subtitle": "Submit your project requirements for product selection and engineering support",
+    "name": "Full name",
+    "email": "Business email",
+    "phone": "Phone",
+    "company": "Company",
+    "sector": "Sector",
+    "country": "Country",
+    "message": "Project brief",
+    "submit": "Request Technical Consultation",
+    "sectorOptions": {
+      "healthcare": "Healthcare",
+      "hospitality": "Hospitality / Ho.Re.Ca",
+      "education": "Schools & Universities",
+      "industrial": "Industrial",
+      "commercial": "Commercial Offices",
+      "government": "Government",
+      "other": "Other"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "note": "Technical values shown are taken from official public Jonix pages and linked downloadable materials.",
+    "socialTitle": "Social Media",
+    "socialSubtitle": "Jonix Arabia channels and official corporate profile"
+  }
+}

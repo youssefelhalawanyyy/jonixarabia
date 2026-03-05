@@ -1,0 +1,78 @@
+// Industry sectors and applications data
+
+export const industriesData = [
+  {
+    id: 'healthcare',
+    icon: 'heart-pulse',
+    name: 'Healthcare & Hospitals',
+    description: 'Medical-grade air sanitization for hospitals, clinics, and medical facilities across Egypt and the Middle East.',
+    applications: ['Hospitals', 'Cardiology Centers', 'Dental Clinics', 'Medical Laboratories', 'Nursing Homes'],
+    color: 'from-blue-600 to-blue-500',
+    certification: 'Medical Grade - CE Certified',
+  },
+  {
+    id: 'education',
+    icon: 'academic-cap',
+    name: 'Schools & Universities',
+    description: 'Maintain healthy classrooms and lecture halls. Reduce airborne pathogens in educational institutions.',
+    applications: ['Universities', 'Secondary Schools', 'Laboratories', 'Lecture Halls', 'Library Facilities'],
+    color: 'from-purple-600 to-purple-500',
+    certification: 'Educational Standards Compliant',
+  },
+  {
+    id: 'food-beverage',
+    icon: 'utensils',
+    name: 'Restaurants & Cafes',
+    description: 'Premium air quality in dining spaces. Food-safe sanitization for kitchens and service areas.',
+    applications: ['Restaurants', 'Cafes', 'Kitchens', 'Food Courts', 'Catering Facilities'],
+    color: 'from-green-600 to-green-500',
+    certification: 'Food Safety Compliant',
+  },
+  {
+    id: 'food-production',
+    icon: 'cube',
+    name: 'Food Production',
+    description: 'Advanced sanitization for food manufacturing. Prevents microbial contamination without chemical residues.',
+    applications: ['Food Manufacturing', 'Processing Facilities', 'Packaging Areas', 'Quality Control Labs'],
+    color: 'from-orange-600 to-orange-500',
+    certification: 'Food Industry Certified',
+  },
+  {
+    id: 'corporate',
+    icon: 'building-office-2',
+    name: 'Corporate Offices',
+    description: 'Enhance employee wellness. Create healthy work environments with continuous air sanitization.',
+    applications: ['Office Buildings', 'Meeting Rooms', 'Open Spaces', 'Reception Areas'],
+    color: 'from-gray-700 to-gray-600',
+    certification: 'Workplace Safety Standard',
+  },
+  {
+    id: 'hospitality',
+    icon: 'home',
+    name: 'Hospitality',
+    description: 'Guest comfort and safety. Premium air quality for hotels and accommodation facilities.',
+    applications: ['Hotels', 'Resorts', 'Guest Rooms', 'Common Areas', 'Wellness Spas'],
+    color: 'from-amber-600 to-amber-500',
+    certification: 'Hospitality Standards',
+  },
+  {
+    id: 'retail',
+    icon: 'shopping-bag',
+    name: 'Retail Spaces',
+    description: 'Protect customers and staff. Create safe shopping environments with advanced air sanitization.',
+    applications: ['Shopping Centers', 'Retail Stores', 'Malls', 'Fashion Boutiques'],
+    color: 'from-pink-600 to-pink-500',
+    certification: 'Retail Safety Standard',
+  },
+  {
+    id: 'residential',
+    icon: 'home-modern',
+    name: 'Residential Developments',
+    description: 'Home air quality solutions. Safe and effective for family environments.',
+    applications: ['Apartments', 'Villas', 'Residential Complexes', 'Smart Homes'],
+    color: 'from-teal-600 to-teal-500',
+    certification: 'Residential Safety Approved',
+  },
+];
+
+export default industriesData;

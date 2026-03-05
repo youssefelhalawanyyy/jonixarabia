@@ -1,0 +1,113 @@
+// Real JONIX Product Specifications from official documentation
+
+export const productsData = [
+  {
+    id: 'mate',
+    name: 'JONIX MATE',
+    type: 'Mobile Medical Air Sanitization Unit',
+    description: 'Medical-grade mobile unit for controlled environments',
+    applications: ['Hospitals', 'Medical Clinics', 'Dental Centers', 'Laboratories', 'Clean Rooms'],
+    specifications: {
+      filters: ['G4', 'F7', 'HEPA 13'],
+      height_mm: 2035,
+      width_mm: 760,
+      depth_mm: 700,
+      features: [
+        'Integrated NTP cold plasma module',
+        'Advanced digital touch display',
+        'Adjustable ventilation',
+        'Rear access for maintenance',
+        'Overpressure installation capable',
+        'Immediate operation',
+      ],
+      environmental: 'No chemical products, Zero environmental impact',
+    },
+    performance: 'Up to 99% bioburden reduction',
+  },
+  {
+    id: 'steel',
+    name: 'JONIX STEEL',
+    type: 'Wall/Ceiling Commercial Unit',
+    description: 'Professional stainless steel installation for commercial spaces',
+    applications: ['Restaurants', 'Offices', 'Retail Spaces', 'Food Preparation Areas', 'Corporate Facilities'],
+    specifications: {
+      material: 'AISI 304 Stainless Steel',
+      models: ['1C', '2C', '4C', '2F', '4F'],
+      power_consumption_w: '33-67W',
+      installation: 'Wall or Ceiling Mounted',
+      maintenance_routine_hours: 1000,
+      maintenance_basic_hours: 12000,
+      features: [
+        'Plug & play installation',
+        'ON/OFF control',
+        'Professional design',
+        'Durable construction',
+      ],
+    },
+    performance: 'Up to 99% bioburden reduction',
+  },
+  {
+    id: 'duct',
+    name: 'JONIX DUCT',
+    type: 'HVAC & Ventilation Integration',
+    description: 'Integrated sanitization for air handling units and duct systems',
+    applications: ['HVAC Systems', 'Ventilation Networks', 'Central Air Conditioning', 'Building Management Systems'],
+    specifications: {
+      models: ['70MIC2C', '70MIC4C', '70MIC2F', '70MIC4F'],
+      power_consumption_va: '20-40',
+      supply_voltage: '230V / 1 / 50Hz',
+      features: [
+        'Sanitizes internal duct surfaces',
+        'Remote management capability',
+        'Eliminates bacteria, viruses, moulds, VOCs, odours',
+        'Environmentally friendly',
+        'No residual chemicals',
+        'High efficiency performance',
+      ],
+    },
+    performance: 'Up to 99% bioburden reduction',
+  },
+  {
+    id: 'minimate-plus',
+    name: 'MiniMATE Plus',
+    type: 'High-Efficiency Sanitization Unit',
+    description: 'Advanced filtration and plasma sanitization system',
+    applications: ['Medical Facilities', 'Sanitary Applications', 'Clinical Environments'],
+    specifications: {
+      airflow_m3_h: '400-1200',
+      max_power_w: 594,
+      height_mm: 1060,
+      width_mm: 560,
+      depth_mm: 460,
+      filters: ['Pre-filter', 'H13 HEPA'],
+      features: [
+        'Two NTP sections',
+        'High-efficiency plug fan',
+        'Dedicated sanitary applications',
+        'Advanced filtration',
+      ],
+    },
+    performance: 'Up to 99% bioburden reduction',
+  },
+  {
+    id: 'inside-mini',
+    name: 'JONIX INSIDE Mini',
+    type: 'HVAC Component',
+    description: 'Integration component for larger HVAC systems',
+    applications: ['Residential HVAC', 'Industrial Systems', 'Building Integration'],
+    specifications: {
+      power_supply: '230V / 1 / 50Hz',
+      current_a: 0.03,
+      features: [
+        'Ionizing tube (NTP generator)',
+        'High voltage warning system',
+        'CE Declaration of Conformity',
+        'Easy integration',
+        'Compact design',
+      ],
+    },
+    performance: 'Advanced oxidation mechanism',
+  },
+];
+
+export default productsData;
