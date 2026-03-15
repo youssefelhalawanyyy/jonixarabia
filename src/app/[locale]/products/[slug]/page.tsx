@@ -3,12 +3,16 @@ import { getTranslations } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { DownloadIcon } from '@/components/icons';
-import { getProductBySlug } from '@/data/catalog';
+import { getProductBySlug, productModels } from '@/data/catalog';
 import MediaImage from '@/components/MediaImage';
 
 type ProductDetailPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
+
+export function generateStaticParams() {
+  return productModels.map(p => ({ slug: p.slug }));
+}
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { locale, slug } = await params;
