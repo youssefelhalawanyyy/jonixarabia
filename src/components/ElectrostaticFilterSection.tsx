@@ -292,7 +292,7 @@ export default function ElectrostaticFilterSection() {
       id="electrostatic"
       style={{
         background: `linear-gradient(160deg, #f8fafb 0%, #f2f6f9 50%, #edf2f5 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
         position: 'relative',
         overflow: 'hidden',
@@ -332,7 +332,7 @@ export default function ElectrostaticFilterSection() {
       }} />
 
       {/* ── Content ── */}
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{ maxWidth: 760, marginBottom: 68 }}>
@@ -375,7 +375,7 @@ export default function ElectrostaticFilterSection() {
         {/* ── 4 INFO CARDS 2×2 ── */}
         <div
           ref={cardsRef}
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 80 }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 18, marginBottom: 80 }}
         >
           {cards.map(({ title, items, accent }, i) => (
             <InfoCard
@@ -432,7 +432,7 @@ export default function ElectrostaticFilterSection() {
           {/* Pathogen cards grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))',
             gap: 14,
           }}>
             {electrostaticPathogens.map((group, i) => (

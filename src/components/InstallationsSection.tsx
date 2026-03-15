@@ -242,7 +242,7 @@ function GroupCard({
             {pick(locale, group.title)}
           </h3>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 7 }}>
           {group.items.map((item: { en: string; ar: string }, j: number) => (
             <motion.div
               key={`${group.id}-${j}`}
@@ -279,7 +279,7 @@ function RegionSidebar({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        position: 'sticky', top: 112,
+        position: 'sticky', top: 80,
         background: `linear-gradient(160deg, ${C.tealFaint}, rgba(255,255,255,0.5))`,
         border: `1px solid ${C.teal}28`,
         borderRadius: 22,
@@ -370,7 +370,7 @@ export default function InstallationsSection() {
       id="installations"
       style={{
         background: `linear-gradient(160deg, #f8fafb 0%, #f2f6f9 50%, #edf2f5 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
         position: 'relative',
         overflow: 'hidden',
@@ -406,7 +406,7 @@ export default function InstallationsSection() {
         backgroundSize: '32px 32px', opacity: 0.4,
       }} />
 
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{ maxWidth: 780, marginBottom: 68 }}>
@@ -467,7 +467,7 @@ export default function InstallationsSection() {
             </h3>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 12 }}>
             {installationsNow.map((item, i) => (
               <NowCard key={item.en} item={item} i={i} locale={locale} inView={nowInView} />
             ))}
@@ -475,7 +475,7 @@ export default function InstallationsSection() {
         </div>
 
         {/* ── AUTH + FIELD 2-col ── */}
-        <div ref={authRef} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 52 }}>
+        <div ref={authRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 18, marginBottom: 52 }}>
           <InfoPanelCard
             title={t('authorizationTitle')}
             items={egyptAuthorization}
@@ -491,7 +491,7 @@ export default function InstallationsSection() {
         </div>
 
         {/* ── GROUPS + SIDEBAR ── */}
-        <div ref={groupRef} style={{ display: 'grid', gridTemplateColumns: '1.3fr 0.7fr', gap: 22, alignItems: 'start' }}>
+        <div ref={groupRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: 22, alignItems: 'start' }}>
 
           {/* Groups */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>

@@ -100,7 +100,7 @@ export default function MENASection() {
       id="mena"
       style={{
         background: `linear-gradient(160deg, #f8fafb 0%, #f2f6f9 50%, #edf2f5 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
         position: 'relative',
         overflow: 'hidden',
@@ -136,7 +136,7 @@ export default function MENASection() {
         backgroundSize: '32px 32px', opacity: 0.4,
       }} />
 
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -195,7 +195,7 @@ export default function MENASection() {
         </div>
 
         {/* ── MAIN GRID ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 28, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: 28, alignItems: 'start' }}>
 
           {/* ══ LEFT — Adaptation points ══ */}
           <div ref={leftRef}>
@@ -351,7 +351,7 @@ export default function MENASection() {
               <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.teal, marginBottom: 14 }}>
                 {isAr ? 'دول التغطية' : 'Coverage Countries'}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(70px, 1fr))', gap: 8 }}>
                 {REGIONS.map((r, i) => (
                   <motion.div
                     key={r.name_en}
@@ -394,7 +394,7 @@ export default function MENASection() {
               <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.teal, marginBottom: 14 }}>
                 {isAr ? 'القطاعات المستهدفة' : 'Target Sectors'}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 7 }}>
                 {SECTORS.map((s, i) => (
                   <motion.div
                     key={s.en}
