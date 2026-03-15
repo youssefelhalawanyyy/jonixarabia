@@ -1,10 +1,10 @@
 'use client';
 
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { technologyHighlights } from '@/data/catalog';
 import { SparkIcon } from '@/components/icons';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, memo } from 'react';
 
 /* ─── Brand palette ─── */
 const C = {
@@ -22,8 +22,8 @@ const C = {
 
 const HIGHLIGHT_COLORS = [C.teal, C.tealDark, C.charcoal, C.tealLight];
 
-/* ─── Plasma orb — animated SVG ─── */
-function PlasmaOrb({ size = 120, active = true }: { size?: number; active?: boolean }) {
+/* ─── Plasma orb — memoized, spinning ring via CSS ─── */
+const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?: number; active?: boolean }) {
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
       {/* Outer rings */}
@@ -41,8 +41,9 @@ function PlasmaOrb({ size = 120, active = true }: { size?: number; active?: bool
           transition={{ duration: 2.8 + i * 0.6, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
         />
       ))}
-      {/* Spinning dashed ring */}
-      <motion.div
+      {/* Spinning dashed ring — CSS animation (compositor thread) */}
+      <div
+        className="plasma-spin-ring"
         style={{
           position: 'absolute',
           inset: 12,
@@ -50,8 +51,6 @@ function PlasmaOrb({ size = 120, active = true }: { size?: number; active?: bool
           border: `1.5px dashed ${C.teal}`,
           opacity: 0.3,
         }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
       />
       {/* Glow pulse */}
       <motion.div
@@ -83,15 +82,15 @@ function PlasmaOrb({ size = 120, active = true }: { size?: number; active?: bool
       </motion.div>
     </div>
   );
-}
+});
 
 /* ─── Animated plasma diagram ─── */
 function PlasmaDiagram({ isAr }: { isAr: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
-  const particleCount = 14;
-  const cleanCount = 12;
+  const particleCount = 8;
+  const cleanCount = 8;
 
   return (
     <div
@@ -106,12 +105,6 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
         overflow: 'hidden',
       }}
     >
-      {/* Background grid */}
-      <div style={{
-        position: 'absolute', inset: 0, opacity: 0.4,
-        backgroundImage: `linear-gradient(${C.teal}18 1px, transparent 1px), linear-gradient(90deg, ${C.teal}18 1px, transparent 1px)`,
-        backgroundSize: '28px 28px',
-      }} />
 
       {/* ── INTAKE SIDE (left in LTR) ── */}
       <motion.div

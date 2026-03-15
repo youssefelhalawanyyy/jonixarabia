@@ -296,12 +296,6 @@ export default function PerformanceSection() {
         transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
-      {/* ── Grid texture ── */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(${C.tealGlow} 1px, transparent 1px), linear-gradient(90deg, ${C.tealGlow} 1px, transparent 1px)`,
-        backgroundSize: '52px 52px',
-      }} />
 
       {/* ── Scanline ── */}
       <motion.div

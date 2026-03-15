@@ -288,12 +288,6 @@ export default function ContactSection() {
         transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
-      {/* ── Grid texture ── */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(${C.tealGlow} 1px, transparent 1px), linear-gradient(90deg, ${C.tealGlow} 1px, transparent 1px)`,
-        backgroundSize: '56px 56px',
-      }} />
 
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
 

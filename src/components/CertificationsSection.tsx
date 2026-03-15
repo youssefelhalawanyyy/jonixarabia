@@ -344,12 +344,6 @@ export default function CertificationsSection() {
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
-      {/* ── Grid texture ── */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(rgba(142,178,187,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(142,178,187,0.025) 1px, transparent 1px)`,
-        backgroundSize: '56px 56px',
-      }} />
 
       {/* ── Content ── */}
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>

@@ -2,10 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
-import heroImg from '@/app/jnj.jpg';
 import { partnerLogo } from '@/data/catalog';
 import MediaImage from '@/components/MediaImage';
-import BlurText from '@/components/BlurText';
 import LiquidEther from '@/components/LiquidEther';
 import { useEffect, useRef } from 'react';
 
@@ -38,15 +36,17 @@ function Particles() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
     let raf: number;
+    let paused = false;
 
     const resize = () => {
       canvas.width  = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
-    const particles = Array.from({ length: 36 }, () => ({
+    // Reduced from 36 to 18 particles
+    const particles = Array.from({ length: 18 }, () => ({
       x: Math.random() * canvas.width,
       y: canvas.height + Math.random() * 200,
       size: Math.random() < 0.3 ? 2.5 : 1.5,
@@ -56,6 +56,7 @@ function Particles() {
     }));
 
     const draw = () => {
+      if (paused) { raf = 0; return; }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
         ctx.beginPath();
@@ -72,11 +73,18 @@ function Particles() {
       });
       raf = requestAnimationFrame(draw);
     };
+
+    const onVisibility = () => {
+      paused = document.hidden;
+      if (!paused && raf === 0) { raf = requestAnimationFrame(draw); }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
     draw();
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 
@@ -89,17 +97,15 @@ function Particles() {
   );
 }
 
-/* ── Scanline component ── */
+/* ── Scanline — CSS animation (no JS overhead) ── */
 function Scanline() {
   return (
-    <motion.div
-      className="absolute left-0 right-0 h-px pointer-events-none"
+    <div
+      className="absolute left-0 right-0 h-px pointer-events-none hero-scanline"
       style={{
         background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.35), transparent)',
         zIndex: 3,
       }}
-      animate={{ top: ['-2px', '100%'] }}
-      transition={{ duration: 5, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
     />
   );
 }
@@ -120,51 +126,35 @@ export default function HeroSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
 
-      {/* ── Ambient orbs ── */}
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
+      {/* ── Ambient orbs — CSS animations (compositor thread, zero JS) ── */}
+      <div
+        className="absolute rounded-full pointer-events-none hero-orb-1"
         style={{
           width: 600, height: 600,
           top: -200, right: -100,
           background: 'radial-gradient(circle, rgba(0,120,200,0.18) 0%, rgba(0,60,120,0.08) 60%, transparent 80%)',
           filter: 'blur(80px)',
         }}
-        animate={{ scale: [1, 1.15, 1], x: [0, 10, 0], y: [0, -10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
+      <div
+        className="absolute rounded-full pointer-events-none hero-orb-2"
         style={{
           width: 400, height: 400,
           bottom: -100, left: -80,
           background: 'radial-gradient(circle, rgba(0,196,239,0.12) 0%, rgba(0,80,160,0.06) 60%, transparent 80%)',
           filter: 'blur(80px)',
         }}
-        animate={{ scale: [1, 1.2, 1], x: [0, -8, 0], y: [0, 12, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />
-      <motion.div
-        className="absolute rounded-full pointer-events-none"
+      <div
+        className="absolute rounded-full pointer-events-none hero-orb-3"
         style={{
           width: 300, height: 300,
           top: '40%', left: '30%',
           background: 'radial-gradient(circle, rgba(0,150,255,0.07) 0%, transparent 70%)',
           filter: 'blur(60px)',
         }}
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
       />
 
-      {/* ── Grid texture ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,160,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,160,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-          zIndex: 1,
-        }}
-      />
 
       {/* ── Scanline ── */}
       <Scanline />
@@ -181,8 +171,8 @@ export default function HeroSection() {
           color2="#00c4ef"
           mouseForce={20}
           cursorSize={100}
-          iterationsPoisson={20}
-          resolution={0.35}
+          iterationsPoisson={10}
+          resolution={0.25}
           autoDemo={true}
           autoSpeed={0.3}
           autoIntensity={1.8}

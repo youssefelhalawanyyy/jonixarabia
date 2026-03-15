@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useMemo, useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { partnerLogo } from '@/data/catalog';
@@ -24,22 +24,6 @@ const C = {
   mutedDim:  'rgba(255,255,255,0.22)',
 };
 
-/* ─── Animated active dot for nav item ─── */
-function ActiveDot() {
-  return (
-    <motion.span
-      layoutId="nav-active-dot"
-      style={{
-        position: 'absolute',
-        bottom: 4, left: '50%', transform: 'translateX(-50%)',
-        width: 4, height: 4, borderRadius: '50%',
-        background: C.teal,
-        display: 'block',
-      }}
-      transition={{ type: 'spring', bounce: 0.3, duration: 0.4 }}
-    />
-  );
-}
 
 export default function Header() {
   const locale = useLocale();
@@ -50,7 +34,6 @@ export default function Header() {
   const isAr = locale === 'ar';
 
   const { scrollY } = useScroll();
-  const headerOpacity = useTransform(scrollY, [0, 60], [0.92, 0.98]);
 
   /* Track scroll position for header style change */
   useEffect(() => {
@@ -106,15 +89,12 @@ export default function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
       >
-        {/* Animated top accent bar */}
-        <motion.div
+        {/* Animated top accent bar — CSS animation (compositor thread) */}
+        <div
+          className="header-accent-bar"
           style={{
-            height: 2,
             background: `linear-gradient(90deg, ${C.tealDark}, ${C.teal}, ${C.tealLight}, ${C.teal})`,
-            backgroundSize: '200% 100%',
           }}
-          animate={{ backgroundPosition: ['0% 0%', '100% 0%', '0% 0%'] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
         />
 
         {/* Glass bar */}

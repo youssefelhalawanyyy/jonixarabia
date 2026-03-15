@@ -106,12 +106,6 @@ export default function Footer() {
         transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
-      {/* ── Grid texture ── */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(rgba(142,178,187,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(142,178,187,0.02) 1px, transparent 1px)`,
-        backgroundSize: '56px 56px',
-      }} />
 
       {/* ── TOP ACCENT BAR ── */}
       <div style={{ position: 'relative', height: 3, background: 'rgba(255,255,255,0.04)' }}>

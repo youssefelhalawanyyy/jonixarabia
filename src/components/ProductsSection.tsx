@@ -321,12 +321,6 @@ export default function ProductsSection() {
               boxShadow: '0 24px 64px rgba(6,16,26,0.28)',
             }}
           >
-            {/* Animated grid overlay */}
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.04,
-              backgroundImage: `linear-gradient(rgba(142,178,187,1) 1px, transparent 1px), linear-gradient(90deg, rgba(142,178,187,1) 1px, transparent 1px)`,
-              backgroundSize: '40px 40px',
-            }} />
 
             {/* Ambient glow blobs */}
             <motion.div

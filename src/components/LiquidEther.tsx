@@ -178,7 +178,7 @@ export default function LiquidEther({
   colors = ['#1e5a96', '#8eb2bb', '#00d4ff'],
   mouseForce = 20,
   cursorSize = 100,
-  iterationsPoisson = 32,
+  iterationsPoisson = 16,
   resolution = 0.5,
   autoDemo = false,
   autoSpeed = 0.5,
@@ -219,16 +219,53 @@ export default function LiquidEther({
     const splatProg  = createProgram(gl, VERT, SPLAT);
     const dispProg   = createProgram(gl, VERT, DISPLAY);
 
+    // ── Cache all uniform & attrib locations (avoid per-frame string lookups) ─
+    const advectLoc = {
+      aPos:         gl.getAttribLocation(advectProg, 'aPos'),
+      uVel:         gl.getUniformLocation(advectProg, 'uVel'),
+      uSrc:         gl.getUniformLocation(advectProg, 'uSrc'),
+      texel:        gl.getUniformLocation(advectProg, 'texel'),
+      dt:           gl.getUniformLocation(advectProg, 'dt'),
+      dissipation:  gl.getUniformLocation(advectProg, 'dissipation'),
+    };
+    const divLoc = {
+      aPos:  gl.getAttribLocation(divProg, 'aPos'),
+      uVel:  gl.getUniformLocation(divProg, 'uVel'),
+      texel: gl.getUniformLocation(divProg, 'texel'),
+    };
+    const pressLoc = {
+      aPos:        gl.getAttribLocation(pressProg, 'aPos'),
+      texel:       gl.getUniformLocation(pressProg, 'texel'),
+      uDivergence: gl.getUniformLocation(pressProg, 'uDivergence'),
+      uPressure:   gl.getUniformLocation(pressProg, 'uPressure'),
+    };
+    const gradLoc = {
+      aPos:      gl.getAttribLocation(gradProg, 'aPos'),
+      uPressure: gl.getUniformLocation(gradProg, 'uPressure'),
+      uVel:      gl.getUniformLocation(gradProg, 'uVel'),
+      texel:     gl.getUniformLocation(gradProg, 'texel'),
+    };
+    const splatLoc = {
+      aPos:    gl.getAttribLocation(splatProg, 'aPos'),
+      uTarget: gl.getUniformLocation(splatProg, 'uTarget'),
+      point:   gl.getUniformLocation(splatProg, 'point'),
+      color:   gl.getUniformLocation(splatProg, 'color'),
+      radius:  gl.getUniformLocation(splatProg, 'radius'),
+    };
+    const dispLoc = {
+      aPos: gl.getAttribLocation(dispProg, 'aPos'),
+      uDye: gl.getUniformLocation(dispProg, 'uDye'),
+    };
+
     // ── Quad geometry ─────────────────────────────────────────────────────────
     const quad = gl.createBuffer()!;
     gl.bindBuffer(gl.ARRAY_BUFFER, quad);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
 
-    function bindQuad(prog: WebGLProgram) {
-      gl!.bindBuffer(gl!.ARRAY_BUFFER, quad);
-      const loc = gl!.getAttribLocation(prog, 'aPos');
-      gl!.enableVertexAttribArray(loc);
-      gl!.vertexAttribPointer(loc, 2, gl!.FLOAT, false, 0, 0);
+    function bindQuad(aPosLoc: number) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+      gl.enableVertexAttribArray(aPosLoc);
+      gl.vertexAttribPointer(aPosLoc, 2, gl.FLOAT, false, 0, 0);
     }
 
     // ── FBOs ──────────────────────────────────────────────────────────────────
@@ -255,48 +292,50 @@ export default function LiquidEther({
     }
 
     // ── Splat helper ──────────────────────────────────────────────────────────
-    function splat(
-      x: number, y: number,
-      vx: number, vy: number,
-      colorIdx: number,
-    ) {
+    function splat(x: number, y: number, vx: number, vy: number, colorIdx: number) {
       const radius = (cursorSize / Math.max(W, H)) * 0.5;
       const rgb = palette[colorIdx % palette.length];
       const intensity = mouseForce * 0.0001 * autoIntensity;
 
+      gl.useProgram(splatProg);
+      bindQuad(splatLoc.aPos);
+
       // velocity splat
-      gl!.useProgram(splatProg);
-      gl!.bindFramebuffer(gl!.FRAMEBUFFER, vel.write.fbo);
-      gl!.viewport(0, 0, W, H);
-      bindQuad(splatProg);
-      gl!.uniform1i(gl!.getUniformLocation(splatProg, 'uTarget'), 0);
-      gl!.activeTexture(gl!.TEXTURE0);
-      gl!.bindTexture(gl!.TEXTURE_2D, vel.read.tex);
-      gl!.uniform2f(gl!.getUniformLocation(splatProg, 'point'), x, y);
-      gl!.uniform3f(gl!.getUniformLocation(splatProg, 'color'), vx * intensity, vy * intensity, 0);
-      gl!.uniform1f(gl!.getUniformLocation(splatProg, 'radius'), radius * radius);
-      gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, vel.write.fbo);
+      gl.viewport(0, 0, W, H);
+      gl.uniform1i(splatLoc.uTarget, 0);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+      gl.uniform2f(splatLoc.point, x, y);
+      gl.uniform3f(splatLoc.color, vx * intensity, vy * intensity, 0);
+      gl.uniform1f(splatLoc.radius, radius * radius);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       vel.swap();
 
       // dye splat
-      gl!.bindFramebuffer(gl!.FRAMEBUFFER, dye.write.fbo);
-      gl!.viewport(0, 0, W, H);
-      gl!.uniform1i(gl!.getUniformLocation(splatProg, 'uTarget'), 0);
-      gl!.activeTexture(gl!.TEXTURE0);
-      gl!.bindTexture(gl!.TEXTURE_2D, dye.read.tex);
-      gl!.uniform2f(gl!.getUniformLocation(splatProg, 'point'), x, y);
-      gl!.uniform3f(gl!.getUniformLocation(splatProg, 'color'), rgb[0] * 0.6, rgb[1] * 0.6, rgb[2] * 0.6);
-      gl!.uniform1f(gl!.getUniformLocation(splatProg, 'radius'), radius * radius * 1.5);
-      gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, dye.write.fbo);
+      gl.viewport(0, 0, W, H);
+      gl.uniform1i(splatLoc.uTarget, 0);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, dye.read.tex);
+      gl.uniform2f(splatLoc.point, x, y);
+      gl.uniform3f(splatLoc.color, rgb[0] * 0.6, rgb[1] * 0.6, rgb[2] * 0.6);
+      gl.uniform1f(splatLoc.radius, radius * radius * 1.5);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       dye.swap();
     }
 
-    // ── Mouse / touch tracking ─────────────────────────────────────────────────
+    // ── Mouse tracking (throttled) ─────────────────────────────────────────────
     let lastMouse = { x: 0.5, y: 0.5, moved: false };
     let mouseActive = false;
     let mouseResumeTimer = 0;
+    let lastMouseEvent = 0;
 
     function onMouseMove(e: MouseEvent) {
+      const now = performance.now();
+      if (now - lastMouseEvent < 16) return; // throttle to ~60fps max
+      lastMouseEvent = now;
+
       const rect = canvas!.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width;
       const ny = 1 - (e.clientY - rect.top) / rect.height;
@@ -311,131 +350,156 @@ export default function LiquidEther({
       mouseResumeTimer = window.setTimeout(() => { mouseActive = false; }, autoResumeDelay);
     }
 
-    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mousemove', onMouseMove, { passive: true });
 
     // ── Auto demo ────────────────────────────────────────────────────────────
     let autoT = 0;
     let colorCycle = 0;
     let lastAutoSplat = 0;
 
-    // ── Render loop ───────────────────────────────────────────────────────────
+    // ── Render loop with frame skip ────────────────────────────────────────────
     let raf = 0;
     let lastTime = performance.now();
+    let frameCount = 0;
+    let paused = false;
+
+    function onVisibilityChange() {
+      paused = document.hidden;
+      if (!paused && raf === 0) {
+        lastTime = performance.now();
+        raf = requestAnimationFrame(step);
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     function step() {
+      if (paused) {
+        raf = 0;
+        return;
+      }
+
+      raf = requestAnimationFrame(step);
+      frameCount++;
+
+      // Skip simulation every other frame — halves GPU load
+      // Still renders to screen each frame for smooth display
+      const simulate = (frameCount % 2 === 0);
+
       const now = performance.now();
       const dt = Math.min((now - lastTime) / 1000, 0.016) * 60 * 0.016;
       lastTime = now;
 
-      // auto demo splats
-      if (autoDemo && !mouseActive) {
-        autoT += autoSpeed * dt * 0.5;
-        if (now - lastAutoSplat > 500 / autoSpeed) {
-          lastAutoSplat = now;
-          const ax = 0.5 + Math.sin(autoT * 1.1) * 0.35;
-          const ay = 0.5 + Math.cos(autoT * 0.7) * 0.35;
-          const vx = Math.cos(autoT * 1.3) * autoIntensity;
-          const vy = Math.sin(autoT * 0.9) * autoIntensity;
-          splat(ax, ay, vx, vy, colorCycle);
-          colorCycle = (colorCycle + 1) % palette.length;
+      if (simulate) {
+        // auto demo splats
+        if (autoDemo && !mouseActive) {
+          autoT += autoSpeed * dt * 0.5;
+          if (now - lastAutoSplat > 500 / autoSpeed) {
+            lastAutoSplat = now;
+            const ax = 0.5 + Math.sin(autoT * 1.1) * 0.35;
+            const ay = 0.5 + Math.cos(autoT * 0.7) * 0.35;
+            const vx = Math.cos(autoT * 1.3) * autoIntensity;
+            const vy = Math.sin(autoT * 0.9) * autoIntensity;
+            splat(ax, ay, vx, vy, colorCycle);
+            colorCycle = (colorCycle + 1) % palette.length;
+          }
         }
-      }
 
-      // advect velocity
-      gl.useProgram(advectProg);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, vel.write.fbo);
-      gl.viewport(0, 0, W, H);
-      bindQuad(advectProg);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
-      gl.uniform1i(gl.getUniformLocation(advectProg, 'uVel'), 0);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
-      gl.uniform1i(gl.getUniformLocation(advectProg, 'uSrc'), 1);
-      gl.uniform2f(gl.getUniformLocation(advectProg, 'texel'), ...texel);
-      gl.uniform1f(gl.getUniformLocation(advectProg, 'dt'), dt);
-      gl.uniform1f(gl.getUniformLocation(advectProg, 'dissipation'), 0.98);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      vel.swap();
-
-      // divergence
-      gl.useProgram(divProg);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, divFBO.fbo);
-      gl.viewport(0, 0, W, H);
-      bindQuad(divProg);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
-      gl.uniform1i(gl.getUniformLocation(divProg, 'uVel'), 0);
-      gl.uniform2f(gl.getUniformLocation(divProg, 'texel'), ...texel);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      // pressure solve (Jacobi)
-      gl.useProgram(pressProg);
-      bindQuad(pressProg);
-      gl.uniform2f(gl.getUniformLocation(pressProg, 'texel'), ...texel);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, divFBO.tex);
-      gl.uniform1i(gl.getUniformLocation(pressProg, 'uDivergence'), 1);
-      for (let i = 0; i < iterationsPoisson; i++) {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, pressure.write.fbo);
+        // advect velocity
+        gl.useProgram(advectProg);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, vel.write.fbo);
         gl.viewport(0, 0, W, H);
+        bindQuad(advectLoc.aPos);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+        gl.uniform1i(advectLoc.uVel, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+        gl.uniform1i(advectLoc.uSrc, 1);
+        gl.uniform2f(advectLoc.texel, ...texel);
+        gl.uniform1f(advectLoc.dt, dt);
+        gl.uniform1f(advectLoc.dissipation, 0.98);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        vel.swap();
+
+        // divergence
+        gl.useProgram(divProg);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, divFBO.fbo);
+        gl.viewport(0, 0, W, H);
+        bindQuad(divLoc.aPos);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+        gl.uniform1i(divLoc.uVel, 0);
+        gl.uniform2f(divLoc.texel, ...texel);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+        // pressure solve (Jacobi)
+        gl.useProgram(pressProg);
+        bindQuad(pressLoc.aPos);
+        gl.uniform2f(pressLoc.texel, ...texel);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, divFBO.tex);
+        gl.uniform1i(pressLoc.uDivergence, 1);
+        for (let i = 0; i < iterationsPoisson; i++) {
+          gl.bindFramebuffer(gl.FRAMEBUFFER, pressure.write.fbo);
+          gl.viewport(0, 0, W, H);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, pressure.read.tex);
+          gl.uniform1i(pressLoc.uPressure, 0);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+          pressure.swap();
+        }
+
+        // gradient subtract
+        gl.useProgram(gradProg);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, vel.write.fbo);
+        gl.viewport(0, 0, W, H);
+        bindQuad(gradLoc.aPos);
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, pressure.read.tex);
-        gl.uniform1i(gl.getUniformLocation(pressProg, 'uPressure'), 0);
+        gl.uniform1i(gradLoc.uPressure, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+        gl.uniform1i(gradLoc.uVel, 1);
+        gl.uniform2f(gradLoc.texel, ...texel);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        pressure.swap();
+        vel.swap();
+
+        // advect dye
+        gl.useProgram(advectProg);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, dye.write.fbo);
+        gl.viewport(0, 0, W, H);
+        bindQuad(advectLoc.aPos);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
+        gl.uniform1i(advectLoc.uVel, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, dye.read.tex);
+        gl.uniform1i(advectLoc.uSrc, 1);
+        gl.uniform2f(advectLoc.texel, ...texel);
+        gl.uniform1f(advectLoc.dt, dt);
+        gl.uniform1f(advectLoc.dissipation, 0.985);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        dye.swap();
       }
 
-      // gradient subtract
-      gl.useProgram(gradProg);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, vel.write.fbo);
-      gl.viewport(0, 0, W, H);
-      bindQuad(gradProg);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, pressure.read.tex);
-      gl.uniform1i(gl.getUniformLocation(gradProg, 'uPressure'), 0);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
-      gl.uniform1i(gl.getUniformLocation(gradProg, 'uVel'), 1);
-      gl.uniform2f(gl.getUniformLocation(gradProg, 'texel'), ...texel);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      vel.swap();
-
-      // advect dye
-      gl.useProgram(advectProg);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, dye.write.fbo);
-      gl.viewport(0, 0, W, H);
-      bindQuad(advectProg);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, vel.read.tex);
-      gl.uniform1i(gl.getUniformLocation(advectProg, 'uVel'), 0);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, dye.read.tex);
-      gl.uniform1i(gl.getUniformLocation(advectProg, 'uSrc'), 1);
-      gl.uniform2f(gl.getUniformLocation(advectProg, 'texel'), ...texel);
-      gl.uniform1f(gl.getUniformLocation(advectProg, 'dt'), dt);
-      gl.uniform1f(gl.getUniformLocation(advectProg, 'dissipation'), 0.985);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      dye.swap();
-
-      // display
+      // display (every frame)
       gl.useProgram(dispProg);
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
       gl.viewport(0, 0, canvas!.width, canvas!.height);
-      bindQuad(dispProg);
+      bindQuad(dispLoc.aPos);
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, dye.read.tex);
-      gl.uniform1i(gl.getUniformLocation(dispProg, 'uDye'), 0);
+      gl.uniform1i(dispLoc.uDye, 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      raf = requestAnimationFrame(step);
     }
 
     raf = requestAnimationFrame(step);
 
     return () => {
       cancelAnimationFrame(raf);
+      raf = 0;
       canvas.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       clearTimeout(mouseResumeTimer);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
