@@ -122,12 +122,12 @@ export default function Footer() {
       </div>
 
       {/* ── MAIN GRID ── */}
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '72px 44px 0', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(40px, 7vw, 72px) clamp(16px, 4vw, 44px) 0', position: 'relative', zIndex: 10 }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: isAr ? '1.1fr 1fr 1.6fr' : '1.6fr 1fr 1.1fr',
-          gap: 56,
-          paddingBottom: 56,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: 'clamp(32px, 5vw, 56px)',
+          paddingBottom: 'clamp(32px, 5vw, 56px)',
         }}>
 
           {/* ══ COL 1 — BRAND ══ */}

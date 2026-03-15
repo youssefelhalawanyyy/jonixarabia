@@ -194,6 +194,9 @@ export default function LiquidEther({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Skip WebGL on mobile — too heavy, battery drain, thermal throttling
+    if (window.innerWidth < 768) return;
+
     const glRaw = canvas.getContext('webgl', { alpha: false, antialias: false }) as WebGLRenderingContext | null;
     if (!glRaw) return;
     const gl: WebGLRenderingContext = glRaw;

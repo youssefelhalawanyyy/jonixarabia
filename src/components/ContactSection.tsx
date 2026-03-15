@@ -263,7 +263,7 @@ export default function ContactSection() {
         position: 'relative',
         overflow: 'hidden',
         background: `linear-gradient(160deg, #07111c 0%, #06101a 50%, #050e17 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
       }}
       dir={isAr ? 'rtl' : 'ltr'}
@@ -289,7 +289,7 @@ export default function ContactSection() {
       />
 
 
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -346,7 +346,7 @@ export default function ContactSection() {
         </div>
 
         {/* ── MAIN GRID ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 28, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(16px, 3vw, 28px)', alignItems: 'start' }}>
 
           {/* ══ LEFT — Info ══ */}
           <motion.div
@@ -464,17 +464,17 @@ export default function ContactSection() {
 
             <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* Row 1 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
                 <Field label={t('name')} value={form.name} onChange={v => setForm(p => ({ ...p, name: v }))} required />
                 <Field label={t('email')} value={form.email} onChange={v => setForm(p => ({ ...p, email: v }))} type="email" required />
               </div>
               {/* Row 2 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
                 <Field label={t('phone')} value={form.phone} onChange={v => setForm(p => ({ ...p, phone: v }))} />
                 <Field label={t('company')} value={form.company} onChange={v => setForm(p => ({ ...p, company: v }))} />
               </div>
               {/* Row 3 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
                 <Select
                   label={t('sector')}
                   value={form.sector}

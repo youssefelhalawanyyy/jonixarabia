@@ -182,8 +182,8 @@ export default function HeroSection() {
 
       {/* ── Main content ── */}
       <div className="relative flex flex-1 items-center" style={{ zIndex: 10 }}>
-        <div className="w-full py-24 lg:py-32" style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 48px 40px' }}>
-          <div className="grid items-center" style={{ gap: 60, gridTemplateColumns: '1.15fr 0.85fr' }}>
+        <div className="w-full" style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(48px, 8vw, 80px) clamp(16px, 5vw, 48px) 40px' }}>
+          <div className="grid items-center" style={{ gap: 'clamp(32px, 5vw, 60px)', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))' }}>
 
             {/* ════ LEFT ════ */}
             <div className="flex flex-col">
@@ -217,7 +217,7 @@ export default function HeroSection() {
               <h1
                 style={{
                   fontFamily: "'Playfair Display', serif",
-                  fontSize: 'clamp(44px, 5.5vw, 72px)',
+                  fontSize: 'clamp(28px, 5.5vw, 72px)',
                   fontWeight: 900,
                   lineHeight: 1.05,
                   color: '#fff',
@@ -339,7 +339,7 @@ export default function HeroSection() {
                 style={{
                   marginTop: 48, paddingTop: 36,
                   borderTop: '1px solid rgba(255,255,255,0.08)',
-                  display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+                  display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                 }}
               >
                 {STATS.map((s, i) => (

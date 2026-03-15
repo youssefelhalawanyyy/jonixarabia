@@ -312,7 +312,7 @@ export default function CertificationsSection() {
       style={{
         position: 'relative',
         background: `linear-gradient(160deg, #0d1a24 0%, #101e28 40%, #0e1c26 70%, #0b1820 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
         overflow: 'hidden',
       }}
@@ -346,7 +346,7 @@ export default function CertificationsSection() {
 
 
       {/* ── Content ── */}
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{ maxWidth: 720, marginBottom: 72 }}>
@@ -415,7 +415,7 @@ export default function CertificationsSection() {
         <div
           ref={statsRef}
           style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
             gap: 0,
             padding: '32px 0',
             marginBottom: 60,
@@ -445,7 +445,7 @@ export default function CertificationsSection() {
         {/* ── CERTIFICATION CARDS ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
           gap: 18,
           marginBottom: 72,
         }}>
@@ -494,7 +494,7 @@ export default function CertificationsSection() {
           {/* Standards grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))',
             gap: 14,
           }}>
             {standardsReferences.map((item, i) => (

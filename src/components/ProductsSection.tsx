@@ -189,7 +189,7 @@ export default function ProductsSection() {
       id="products"
       style={{
         background: `linear-gradient(160deg, #f8fafb 0%, #f2f6f9 50%, #edf2f5 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
         position: 'relative',
         overflow: 'hidden',
@@ -225,7 +225,7 @@ export default function ProductsSection() {
         backgroundSize: '32px 32px', opacity: 0.4,
       }} />
 
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{ maxWidth: 720, marginBottom: 64 }}>
@@ -290,7 +290,7 @@ export default function ProductsSection() {
           ref={gridRef}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
             gap: 18,
             marginBottom: 52,
           }}
@@ -349,7 +349,7 @@ export default function ProductsSection() {
 
             <div style={{
               position: 'relative', zIndex: 10,
-              padding: '44px 52px',
+              padding: 'clamp(24px, 5vw, 44px) clamp(20px, 5vw, 52px)',
               display: 'flex', alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'wrap', gap: 28,

@@ -110,7 +110,7 @@ export default function Header() {
             transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease',
           }}
         >
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 40px' }}>
+          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px)' }}>
             <div style={{
               display: 'flex', height: 76,
               alignItems: 'center', justifyContent: 'space-between',

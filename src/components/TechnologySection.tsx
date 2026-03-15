@@ -451,12 +451,12 @@ export default function TechnologySection() {
       id="technology"
       style={{
         background: `linear-gradient(160deg, #f8fafb 0%, #f1f5f8 50%, #eaf0f3 100%)`,
-        padding: '100px 0',
+        padding: 'clamp(60px, 10vw, 100px) 0',
         fontFamily: "'DM Sans', sans-serif",
       }}
       dir={isAr ? 'rtl' : 'ltr'}
     >
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 40px' }} ref={sectionRef}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px)' }} ref={sectionRef}>
 
         {/* ── SECTION HEADER ── */}
         <motion.div
@@ -497,7 +497,7 @@ export default function TechnologySection() {
         </motion.div>
 
         {/* ── MAIN GRID ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))', gap: 'clamp(24px, 4vw, 40px)', alignItems: 'start' }}>
 
           {/* ══ LEFT COLUMN ══ */}
           <div>
@@ -614,7 +614,7 @@ export default function TechnologySection() {
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.4 }}
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}
             >
               {steps.map((step, i) => (
                 <motion.div
@@ -660,7 +660,7 @@ export default function TechnologySection() {
             boxShadow: '0 8px 40px rgba(90,138,150,0.09)',
           }}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(24px, 4vw, 48px)', alignItems: 'start' }}>
             {/* Left: explainer */}
             <PlasmaExplainerGraph isAr={isAr} />
 

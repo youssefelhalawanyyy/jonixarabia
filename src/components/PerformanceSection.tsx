@@ -267,7 +267,7 @@ export default function PerformanceSection() {
         position: 'relative',
         overflow: 'hidden',
         background: `linear-gradient(160deg, #060f18 0%, #09141e 40%, #0b1a26 70%, #071018 100%)`,
-        padding: '110px 0',
+        padding: 'clamp(60px, 10vw, 110px) 0',
         fontFamily: "'DM Sans', sans-serif",
       }}
       dir={isAr ? 'rtl' : 'ltr'}
@@ -309,7 +309,7 @@ export default function PerformanceSection() {
       />
 
       {/* ── Content ── */}
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 44px', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
 
         {/* ── HEADER ── */}
         <div style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -383,7 +383,7 @@ export default function PerformanceSection() {
         {/* ── BIG METRIC CARDS ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
           gap: 16,
           marginBottom: 20,
         }}>
@@ -444,7 +444,7 @@ export default function PerformanceSection() {
           ref={detailRef}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 10,
           }}
         >
