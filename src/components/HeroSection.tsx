@@ -391,7 +391,7 @@ export default function HeroSection() {
                 {/* Top shimmer */}
                 <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)' }} />
 
-                <div style={{ padding: 28, position: 'relative' }}>
+                <div style={{ padding: 'clamp(16px, 4vw, 28px)', position: 'relative' }}>
 
                   {/* LIVE badge */}
                   <motion.div

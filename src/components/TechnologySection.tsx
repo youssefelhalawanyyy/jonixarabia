@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { technologyHighlights } from '@/data/catalog';
 import { SparkIcon } from '@/components/icons';
-import { useRef, memo } from 'react';
+import { useRef, memo, useState, useEffect } from 'react';
 
 /* ─── Brand palette ─── */
 const C = {
@@ -84,13 +84,24 @@ const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?
   );
 });
 
-/* ─── Animated plasma diagram ─── */
+/* ─── Animated plasma diagram — fully responsive ─── */
 function PlasmaDiagram({ isAr }: { isAr: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [w, setW] = useState(0);
 
-  const particleCount = 8;
-  const cleanCount = 8;
+  useEffect(() => {
+    if (!ref.current) return;
+    const ro = new ResizeObserver(entries => setW(entries[0].contentRect.width));
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const isMini = w > 0 && w < 400;
+  const cardW = isMini ? Math.floor(w * 0.28) : 148;
+  const centerGap = 70; // half-width of center device
+  const pxIn  = isAr ? w - cardW - 12 : cardW + 12;
+  const pxOut = isAr ? centerGap : w - centerGap;
 
   return (
     <div
@@ -98,76 +109,71 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
       style={{
         position: 'relative',
         width: '100%',
-        height: 340,
+        height: isMini ? 260 : 340,
         borderRadius: 20,
         background: C.offWhite,
         border: `1px solid ${C.light}`,
         overflow: 'hidden',
       }}
     >
-
-      {/* ── INTAKE SIDE (left in LTR) ── */}
+      {/* ── INTAKE SIDE ── */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.1 }}
         style={{
           position: 'absolute',
-          top: 20, left: isAr ? 'auto' : 16, right: isAr ? 16 : 'auto',
-          width: 148, padding: '12px 14px',
+          top: 16, left: isAr ? 'auto' : 10, right: isAr ? 10 : 'auto',
+          width: cardW, padding: isMini ? '8px 10px' : '12px 14px',
           background: '#fff',
           border: `1px solid ${C.light}`,
-          borderRadius: 16,
+          borderRadius: 14,
           boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          zIndex: 5,
         }}
       >
-        <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.charcoal, marginBottom: 4 }}>
-          {isAr ? 'هواء ملوث' : 'Contaminated Air'}
+        <p style={{ fontSize: isMini ? 7.5 : 9, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.charcoal, marginBottom: 3 }}>
+          {isAr ? 'هواء ملوث' : 'Contaminated'}
         </p>
-        <p style={{ fontSize: 11, color: '#888', lineHeight: 1.5, marginBottom: 8 }}>
-          {isAr ? 'فيروسات · بكتيريا · ملوثات' : 'Viruses · Bacteria · Pollutants'}
-        </p>
-        <div style={{ display: 'flex', gap: 5 }}>
-          {['#ef4444', '#f59e0b', '#94a3b8', '#ef4444', '#f59e0b'].map((c, i) => (
-            <motion.span
-              key={i}
-              style={{ width: 8, height: 8, borderRadius: '50%', background: c, display: 'block' }}
+        {!isMini && <p style={{ fontSize: 10, color: '#888', lineHeight: 1.4, marginBottom: 6 }}>
+          {isAr ? 'فيروسات · ملوثات' : 'Viruses · Pollutants'}
+        </p>}
+        <div style={{ display: 'flex', gap: 4 }}>
+          {['#ef4444', '#f59e0b', '#94a3b8'].map((c, i) => (
+            <motion.span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }}
               animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-            />
+              transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }} />
           ))}
         </div>
       </motion.div>
 
-      {/* ── OUTPUT SIDE (right in LTR) ── */}
+      {/* ── OUTPUT SIDE ── */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.2 }}
         style={{
           position: 'absolute',
-          bottom: 20, right: isAr ? 'auto' : 16, left: isAr ? 16 : 'auto',
-          width: 148, padding: '12px 14px',
+          bottom: 16, right: isAr ? 'auto' : 10, left: isAr ? 10 : 'auto',
+          width: cardW, padding: isMini ? '8px 10px' : '12px 14px',
           background: `linear-gradient(135deg, ${C.tealFaint}, #fff)`,
           border: `1px solid ${C.tealLight}`,
-          borderRadius: 16,
+          borderRadius: 14,
           boxShadow: `0 2px 16px ${C.tealGlow}`,
+          zIndex: 5,
         }}
       >
-        <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.tealDark, marginBottom: 4 }}>
+        <p style={{ fontSize: isMini ? 7.5 : 9, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.tealDark, marginBottom: 3 }}>
           {isAr ? 'هواء نقي' : 'Purified Air'}
         </p>
-        <p style={{ fontSize: 11, color: C.tealDark, lineHeight: 1.5, marginBottom: 8 }}>
-          {isAr ? '٩٩.٩٩٩٩٪ تعطيل الفيروسات' : '99.9999% Virus Inactivation'}
-        </p>
-        <div style={{ display: 'flex', gap: 5 }}>
-          {['#34d399', '#60a5fa', C.teal, '#34d399', '#a78bfa'].map((c, i) => (
-            <motion.span
-              key={i}
-              style={{ width: 8, height: 8, borderRadius: '50%', background: c, display: 'block' }}
+        {!isMini && <p style={{ fontSize: 10, color: C.tealDark, lineHeight: 1.4, marginBottom: 6 }}>
+          {isAr ? '٩٩.٩٩٩٩٪' : '99.9999% Inactivation'}
+        </p>}
+        <div style={{ display: 'flex', gap: 4 }}>
+          {['#34d399', '#60a5fa', C.teal].map((c, i) => (
+            <motion.span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }}
               animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.18 }}
-            />
+              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.18 }} />
           ))}
         </div>
       </motion.div>
@@ -179,92 +185,45 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            width: 130, padding: '16px 12px',
+            width: isMini ? 100 : 130, padding: isMini ? '12px 10px' : '16px 12px',
             background: '#fff',
             border: `1.5px solid ${C.teal}`,
             borderRadius: 22,
             boxShadow: `0 8px 40px ${C.tealGlow}, 0 2px 12px rgba(0,0,0,0.08)`,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
           }}
         >
-          <p style={{ fontSize: 8.5, fontWeight: 800, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.tealDark, textAlign: 'center' }}>
-            {isAr ? 'جهاز Jonix' : 'Jonix Device'}
+          <p style={{ fontSize: 7.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.tealDark, textAlign: 'center' }}>
+            Jonix Device
           </p>
-          <PlasmaOrb size={90} active={inView} />
-          <p style={{ fontSize: 9, fontWeight: 600, color: C.charcoal, textAlign: 'center', letterSpacing: '0.06em' }}>
-            DBD + ROS
-          </p>
-          <p style={{ fontSize: 8, color: '#aaa', textAlign: 'center', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            {isAr ? 'تأين البلازما' : 'Plasma Ionization'}
-          </p>
+          <PlasmaOrb size={isMini ? 68 : 90} active={inView} />
+          <p style={{ fontSize: 8, fontWeight: 600, color: C.charcoal, textAlign: 'center' }}>DBD + ROS</p>
         </motion.div>
       </div>
 
-      {/* ── DIRTY particles flowing IN ── */}
-      {inView && Array.from({ length: particleCount }).map((_, i) => {
-        const yPos = 42 + (i % 5) * 18;
-        const xStart = isAr ? 490 : 168;
-        const xEnd   = isAr ? 330 : 320;
+      {/* ── Particles (rendered only when width is known) ── */}
+      {inView && w > 0 && Array.from({ length: isMini ? 4 : 8 }).map((_, i) => {
+        const yPos = 36 + (i % 4) * 20;
         return (
-          <motion.span
-            key={`in-${i}`}
-            style={{
-              position: 'absolute',
-              top: yPos,
-              width: i % 3 === 0 ? 6 : 4,
-              height: i % 3 === 0 ? 6 : 4,
-              borderRadius: '50%',
-              background: i % 3 === 0 ? '#ef4444' : i % 3 === 1 ? '#f59e0b' : '#94a3b8',
-            }}
-            animate={{ x: [xStart, xEnd], opacity: [0, 0.85, 0] }}
-            transition={{ duration: 2.2, delay: i * 0.18, repeat: Infinity, ease: 'linear' }}
+          <motion.span key={`in-${i}`}
+            style={{ position: 'absolute', top: yPos, left: 0, width: 5, height: 5, borderRadius: '50%',
+              background: i % 3 === 0 ? '#ef4444' : i % 3 === 1 ? '#f59e0b' : '#94a3b8' }}
+            animate={{ x: [pxIn, pxOut], opacity: [0, 0.85, 0] }}
+            transition={{ duration: 2.2, delay: i * 0.22, repeat: Infinity, ease: 'linear' }}
           />
         );
       })}
-
-      {/* ── CLEAN particles flowing OUT ── */}
-      {inView && Array.from({ length: cleanCount }).map((_, i) => {
-        const yPos = 180 + (i % 5) * 18;
-        const xStart = isAr ? 330 : 320;
-        const xEnd   = isAr ? 168 : 490;
+      {inView && w > 0 && Array.from({ length: isMini ? 4 : 8 }).map((_, i) => {
+        const yPos = (isMini ? 140 : 180) + (i % 4) * 18;
         return (
-          <motion.span
-            key={`out-${i}`}
-            style={{
-              position: 'absolute',
-              top: yPos,
-              width: i % 2 === 0 ? 7 : 5,
-              height: i % 2 === 0 ? 7 : 5,
-              borderRadius: '50%',
-              background: i % 2 === 0 ? C.teal : '#60a5fa',
-            }}
-            animate={{ x: [xStart, xEnd], opacity: [0, 1, 0], scale: [0.7, 1.2, 0.7] }}
-            transition={{ duration: 2.4, delay: i * 0.16, repeat: Infinity, ease: 'linear' }}
+          <motion.span key={`out-${i}`}
+            style={{ position: 'absolute', top: yPos, left: 0, width: 5, height: 5, borderRadius: '50%',
+              background: i % 2 === 0 ? C.teal : '#60a5fa' }}
+            animate={{ x: [pxOut, pxIn], opacity: [0, 1, 0] }}
+            transition={{ duration: 2.4, delay: i * 0.2, repeat: Infinity, ease: 'linear' }}
           />
         );
       })}
-
-      {/* Flow labels */}
-      <div style={{
-        position: 'absolute', top: '43%', left: isAr ? 'auto' : 168, right: isAr ? 168 : 'auto',
-        fontSize: 8.5, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-        color: '#aaa', display: 'flex', alignItems: 'center', gap: 4,
-      }}>
-        <motion.span animate={{ x: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
-          {isAr ? '←' : '→'}
-        </motion.span>
-        {isAr ? 'دخول' : 'IN'}
-      </div>
-      <div style={{
-        position: 'absolute', top: '57%', right: isAr ? 'auto' : 168, left: isAr ? 168 : 'auto',
-        fontSize: 8.5, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-        color: C.teal, display: 'flex', alignItems: 'center', gap: 4,
-      }}>
-        {isAr ? 'خروج' : 'OUT'}
-        <motion.span animate={{ x: [0, 6, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
-          {isAr ? '←' : '→'}
-        </motion.span>
-      </div>
     </div>
   );
 }

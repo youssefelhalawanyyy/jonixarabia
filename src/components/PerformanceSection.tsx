@@ -398,9 +398,10 @@ export default function PerformanceSection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.55 }}
           style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexWrap: 'wrap', gap: 0,
-            padding: '20px 32px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+            gap: 0,
+            padding: 'clamp(16px, 3vw, 20px) clamp(16px, 3vw, 32px)',
             background: `linear-gradient(135deg, rgba(142,178,187,0.06), rgba(90,138,150,0.04))`,
             border: `1px solid ${C.teal}20`,
             borderRadius: 20,
@@ -418,7 +419,7 @@ export default function PerformanceSection() {
               flex: 1, minWidth: 120,
               textAlign: 'center',
               padding: '8px 16px',
-              borderLeft: i > 0 ? `1px solid rgba(255,255,255,0.06)` : 'none',
+              borderLeft: `1px solid rgba(255,255,255,0.06)`,
             }}>
               <motion.p
                 style={{

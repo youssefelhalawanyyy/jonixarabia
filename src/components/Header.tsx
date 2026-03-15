@@ -175,7 +175,8 @@ export default function Header() {
 
               {/* ── DESKTOP NAV ── */}
               <nav
-                style={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                className="hidden lg:flex items-center"
+                style={{ gap: 2 }}
                 dir={isAr ? 'rtl' : 'ltr'}
               >
                 {navItems.map((item, i) => {
@@ -286,11 +287,12 @@ export default function Header() {
                   ))}
                 </div>
 
-                {/* CTA button */}
+                {/* CTA button — desktop only */}
                 <motion.a
                   href={`/${locale}#contact`}
+                  className="hidden lg:inline-flex"
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    alignItems: 'center', gap: 6,
                     padding: '9px 20px',
                     fontSize: 12.5, fontWeight: 700,
                     letterSpacing: '0.04em',
