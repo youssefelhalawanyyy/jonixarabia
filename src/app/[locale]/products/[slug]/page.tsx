@@ -6,6 +6,18 @@ import { DownloadIcon } from '@/components/icons';
 import { getProductBySlug, productModels } from '@/data/catalog';
 import MediaImage from '@/components/MediaImage';
 
+/* ─── Brand palette (matches the rest of the site) ─── */
+const C = {
+  teal:      '#8eb2bb',
+  tealLight: '#b8d0d6',
+  tealDark:  '#5a8a96',
+  dark:      '#1c2329',
+  offWhite:  '#f4f6f8',
+  white:     '#ffffff',
+  border:    '#e6ecf0',
+  muted:     '#7a8a96',
+};
+
 type ProductDetailPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
@@ -53,12 +65,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f9fc]">
+    <div
+      style={{ minHeight: '100vh', background: '#f4f6f8', fontFamily: "'DM Sans', sans-serif" }}
+      dir={isAr ? 'rtl' : 'ltr'}
+    >
       <Header />
 
-      <main dir={isAr ? 'rtl' : 'ltr'}>
-        {/* Hero banner */}
-        <div className="relative h-[340px] w-full overflow-hidden bg-[#e4eaf0] md:h-[420px]">
+      <main>
+        {/* ── Hero banner ── */}
+        <div style={{ position: 'relative', height: 'clamp(260px, 38vw, 420px)', overflow: 'hidden', background: '#d8e4ea' }}>
           <MediaImage
             src={product.image}
             alt={product.modelName}
@@ -67,165 +82,325 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             fallbackLabel={product.modelName}
             loading="eager"
           />
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#06101a]/80 via-[#06101a]/30 to-transparent" />
+          {/* gradient overlay */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(6,16,26,0.82) 0%, rgba(6,16,26,0.28) 55%, transparent 100%)',
+          }} />
 
-          {/* Product name overlay */}
-          <div className="absolute bottom-0 left-0 right-0 px-6 py-8 md:px-10">
-            <div className="container-shell">
-              <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.3em] text-[#00c4ef]/80 mb-1">
-                {isAr ? product.lineName.ar : product.lineName.en}
-              </p>
-              <h1 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold leading-tight text-white">
-                {product.modelName}
-              </h1>
-              <p className="mt-1 text-[0.9rem] text-white/55">
-                {isAr ? product.installationType.ar : product.installationType.en}
-              </p>
-            </div>
+          {/* Text overlay — pinned to bottom */}
+          <div style={{
+            position: 'absolute', bottom: 0,
+            insetInlineStart: 0, insetInlineEnd: 0,
+            padding: 'clamp(20px, 4vw, 40px) clamp(16px, 5vw, 48px)',
+          }}>
+            <p style={{
+              fontSize: 9.5, fontWeight: 800,
+              letterSpacing: '0.3em', textTransform: 'uppercase',
+              color: `${C.tealLight}cc`, marginBottom: 8,
+            }}>
+              {isAr ? product.lineName.ar : product.lineName.en}
+            </p>
+            <h1 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(1.6rem, 4.5vw, 3rem)',
+              fontWeight: 900, lineHeight: 1.1,
+              color: '#ffffff', letterSpacing: '-0.02em',
+              marginBottom: 8,
+            }}>
+              {product.modelName}
+            </h1>
+            <p style={{ fontSize: 'clamp(13px, 1.8vw, 16px)', color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+              {isAr ? product.installationType.ar : product.installationType.en}
+            </p>
           </div>
         </div>
 
-        {/* Main content */}
-        <div className="container-shell section-spacer">
-          {/* Back link */}
+        {/* ── Page body ── */}
+        <div style={{
+          maxWidth: 1240, margin: '0 auto',
+          padding: 'clamp(32px, 6vw, 60px) clamp(16px, 5vw, 44px)',
+        }}>
+
+          {/* Back button */}
           <a
             href={`/${locale}/products`}
-            className="inline-flex items-center gap-2 rounded-xl border border-[#e4eaf0] bg-white px-4 py-2.5 text-[0.82rem] font-semibold text-[#5a6a7a] shadow-sm transition-all hover:border-[#1e5a96]/30 hover:text-[#1e5a96] hover:bg-[#f0f6ff] mb-8"
+            style={{
+              display: 'inline-flex', alignItems: 'center',
+              gap: 8, marginBottom: 40,
+              padding: '10px 18px',
+              background: C.white,
+              border: `1px solid ${C.border}`,
+              borderRadius: 14,
+              fontSize: 13, fontWeight: 600,
+              color: C.muted,
+              textDecoration: 'none',
+              boxShadow: '0 1px 6px rgba(90,138,150,0.08)',
+              transition: 'border-color 0.2s, color 0.2s, box-shadow 0.2s',
+            }}
           >
-            <span>←</span>
+            <span style={{ fontSize: 16, lineHeight: 1 }}>{isAr ? '→' : '←'}</span>
             {t('back')}
           </a>
 
-          {/* Two-column layout */}
-          <div className="grid gap-6 lg:grid-cols-[1.05fr_1fr]">
+          {/* Two-column layout — stacks on mobile */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+            gap: 'clamp(16px, 3vw, 24px)',
+            alignItems: 'start',
+          }}>
 
-            {/* LEFT — Tech specs */}
-            <section className="soft-card rounded-3xl p-7">
-              <div className="mb-6">
-                <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.3em] text-[#1e5a96] mb-1">
+            {/* ── LEFT: Tech specs ── */}
+            <section style={{
+              background: C.white,
+              border: `1px solid ${C.border}`,
+              borderRadius: 24,
+              overflow: 'hidden',
+              boxShadow: '0 3px 20px rgba(90,138,150,0.08)',
+            }}>
+              {/* Card top stripe */}
+              <div style={{ height: 3, background: `linear-gradient(90deg, ${C.teal}, ${C.tealLight})` }} />
+
+              <div style={{ padding: 'clamp(20px, 3vw, 28px)' }}>
+                <p style={{
+                  fontSize: 9.5, fontWeight: 800,
+                  letterSpacing: '0.28em', textTransform: 'uppercase' as const,
+                  color: C.tealDark, marginBottom: 6,
+                }}>
                   {isAr ? 'المواصفات التقنية' : 'Technical Specifications'}
                 </p>
-                <h2 className="text-[1.25rem] font-extrabold text-[#1a2332]">{t('techData')}</h2>
-              </div>
+                <h2 style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: 'clamp(18px, 2.5vw, 22px)',
+                  fontWeight: 800, color: C.dark, marginBottom: 20,
+                }}>
+                  {t('techData')}
+                </h2>
 
-              {/* Alternating rows table */}
-              <div className="overflow-hidden rounded-2xl border border-[#e4eaf0]">
-                {specs.map((spec, i) => (
-                  <div
-                    key={spec.label}
-                    className={`flex items-start justify-between gap-4 px-5 py-3.5 text-sm ${
-                      i % 2 === 0 ? 'bg-white' : 'bg-[#f7f9fc]'
-                    } ${i < specs.length - 1 ? 'border-b border-[#e4eaf0]' : ''}`}
-                  >
-                    <span className="font-semibold text-[#5a6a7a] flex-shrink-0">{spec.label}</span>
-                    <span className="text-right font-bold text-[#1a2332]">
-                      {spec.value ?? t('notPublished')}
-                    </span>
-                  </div>
-                ))}
-                {specs.length === 0 && (
-                  <div className="px-5 py-6 text-center text-sm text-[#5a6a7a]">
-                    {t('notPublished')}
+                {/* Specs table */}
+                <div style={{ border: `1px solid ${C.border}`, borderRadius: 16, overflow: 'hidden' }}>
+                  {specs.map((spec, i) => (
+                    <div
+                      key={spec.label}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'space-between',
+                        gap: 16,
+                        padding: '13px 18px',
+                        background: i % 2 === 0 ? C.white : C.offWhite,
+                        borderBottom: i < specs.length - 1 ? `1px solid ${C.border}` : 'none',
+                      }}
+                    >
+                      <span style={{ fontSize: 13, fontWeight: 600, color: C.muted, flexShrink: 0 }}>
+                        {spec.label}
+                      </span>
+                      <span style={{
+                        fontSize: 13, fontWeight: 700, color: C.dark,
+                        textAlign: isAr ? 'left' : 'right',
+                      }}>
+                        {spec.value ?? t('notPublished')}
+                      </span>
+                    </div>
+                  ))}
+                  {specs.length === 0 && (
+                    <div style={{ padding: '24px', textAlign: 'center', fontSize: 13, color: C.muted }}>
+                      {t('notPublished')}
+                    </div>
+                  )}
+                </div>
+
+                {/* Notes */}
+                {product.notes && (
+                  <div style={{
+                    marginTop: 18,
+                    padding: '14px 18px',
+                    background: 'rgba(255,210,100,0.08)',
+                    border: '1px solid rgba(220,170,60,0.3)',
+                    borderRadius: 14,
+                  }}>
+                    <p style={{
+                      fontSize: 9.5, fontWeight: 800,
+                      letterSpacing: '0.2em', textTransform: 'uppercase' as const,
+                      color: '#a07820', marginBottom: 6,
+                    }}>
+                      {isAr ? 'ملاحظة' : 'Note'}
+                    </p>
+                    <p style={{ fontSize: 13, lineHeight: 1.7, color: '#7a5c10' }}>
+                      {isAr ? product.notes.ar : product.notes.en}
+                    </p>
                   </div>
                 )}
               </div>
-
-              {/* Notes */}
-              {product.notes && (
-                <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
-                  <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.2em] text-amber-700 mb-1">
-                    {isAr ? 'ملاحظة' : 'Note'}
-                  </p>
-                  <p className="text-[0.85rem] leading-relaxed text-amber-900">
-                    {isAr ? product.notes.ar : product.notes.en}
-                  </p>
-                </div>
-              )}
             </section>
 
-            {/* RIGHT — Info, downloads, certs */}
-            <div className="flex flex-col gap-6">
+            {/* ── RIGHT: Info, downloads, certs ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(14px, 2vw, 20px)' }}>
 
               {/* Product info card */}
-              <section className="soft-card rounded-3xl p-7">
-                <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.3em] text-[#1e5a96] mb-1">
-                  {isAr ? 'خط المنتج' : 'Product Line'}
-                </p>
-                <h2 className="text-[1.6rem] font-extrabold text-[#1a2332] leading-tight">
-                  {product.modelName}
-                </h2>
-                <p className="mt-1.5 text-[0.92rem] text-[#5a6a7a]">
-                  {isAr ? product.installationType.ar : product.installationType.en}
-                </p>
-
-                <div className="mt-5 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#00c4ef]" />
-                  <span className="text-[0.78rem] font-semibold text-[#5a6a7a]">
-                    {isAr ? product.lineName.ar : product.lineName.en}
-                  </span>
-                </div>
-
-                {/* Official source */}
-                <div className="mt-6 pt-5 border-t border-[#e4eaf0]">
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.25em] text-[#5a6a7a] mb-1.5">
-                    {t('source')}
+              <section style={{
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                borderRadius: 24,
+                overflow: 'hidden',
+                boxShadow: '0 3px 20px rgba(90,138,150,0.08)',
+              }}>
+                <div style={{ height: 3, background: `linear-gradient(90deg, ${C.tealDark}, ${C.teal})` }} />
+                <div style={{ padding: 'clamp(20px, 3vw, 28px)' }}>
+                  <p style={{
+                    fontSize: 9.5, fontWeight: 800,
+                    letterSpacing: '0.28em', textTransform: 'uppercase' as const,
+                    color: C.tealDark, marginBottom: 6,
+                  }}>
+                    {isAr ? 'خط المنتج' : 'Product Line'}
                   </p>
-                  <a
-                    href={product.officialPage}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[0.88rem] font-bold text-[#1e5a96] hover:underline break-all"
-                  >
-                    {product.officialPage} ↗
-                  </a>
+                  <h2 style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 'clamp(20px, 2.8vw, 28px)',
+                    fontWeight: 900, color: C.dark,
+                    lineHeight: 1.2, marginBottom: 6,
+                  }}>
+                    {product.modelName}
+                  </h2>
+                  <p style={{ fontSize: 14, color: C.muted, fontWeight: 300, lineHeight: 1.6 }}>
+                    {isAr ? product.installationType.ar : product.installationType.en}
+                  </p>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: C.teal, display: 'block', flexShrink: 0 }} />
+                    <span style={{ fontSize: 12.5, fontWeight: 600, color: C.muted }}>
+                      {isAr ? product.lineName.ar : product.lineName.en}
+                    </span>
+                  </div>
+
+                  <div style={{ marginTop: 20, paddingTop: 18, borderTop: `1px solid ${C.border}` }}>
+                    <p style={{
+                      fontSize: 9.5, fontWeight: 800,
+                      letterSpacing: '0.25em', textTransform: 'uppercase' as const,
+                      color: C.muted, marginBottom: 8,
+                    }}>
+                      {t('source')}
+                    </p>
+                    <a
+                      href={product.officialPage}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        fontSize: 13, fontWeight: 600,
+                        color: C.tealDark, wordBreak: 'break-all',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {product.officialPage} ↗
+                    </a>
+                  </div>
                 </div>
               </section>
 
-              {/* Downloads */}
-              <section className="soft-card rounded-3xl p-7">
-                <div className="mb-4">
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.3em] text-[#1e5a96] mb-1">
+              {/* Downloads card */}
+              <section style={{
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                borderRadius: 24,
+                overflow: 'hidden',
+                boxShadow: '0 3px 20px rgba(90,138,150,0.08)',
+              }}>
+                <div style={{ height: 3, background: `linear-gradient(90deg, ${C.teal}, ${C.tealLight})` }} />
+                <div style={{ padding: 'clamp(20px, 3vw, 28px)' }}>
+                  <p style={{
+                    fontSize: 9.5, fontWeight: 800,
+                    letterSpacing: '0.28em', textTransform: 'uppercase' as const,
+                    color: C.tealDark, marginBottom: 6,
+                  }}>
                     {isAr ? 'الملفات' : 'Resources'}
                   </p>
-                  <h2 className="text-[1.1rem] font-extrabold text-[#1a2332]">{t('downloads')}</h2>
-                </div>
-                <div className="space-y-2.5">
-                  {product.downloads.length > 0 ? (
-                    product.downloads.map((asset) => (
-                      <a
-                        key={asset.url}
-                        href={asset.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-between rounded-xl border border-[#e4eaf0] bg-white px-4 py-3.5 text-[0.85rem] font-semibold text-[#1e5a96] transition-all hover:border-[#1e5a96]/30 hover:bg-[#f0f6ff] hover:shadow-sm"
-                      >
-                        <span>{isAr ? asset.label.ar : asset.label.en}</span>
-                        <DownloadIcon className="h-4 w-4 flex-shrink-0" />
-                      </a>
-                    ))
-                  ) : (
-                    <p className="text-[0.85rem] text-[#5a6a7a]">{t('notPublished')}</p>
-                  )}
+                  <h2 style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 18, fontWeight: 800,
+                    color: C.dark, marginBottom: 16,
+                  }}>
+                    {t('downloads')}
+                  </h2>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {product.downloads.length > 0 ? (
+                      product.downloads.map((asset) => (
+                        <a
+                          key={asset.url}
+                          href={asset.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: 'flex', alignItems: 'center',
+                            justifyContent: 'space-between', gap: 12,
+                            padding: '12px 16px',
+                            background: C.offWhite,
+                            border: `1px solid ${C.border}`,
+                            borderRadius: 14,
+                            fontSize: 13, fontWeight: 600,
+                            color: C.tealDark,
+                            textDecoration: 'none',
+                            transition: 'background 0.2s, border-color 0.2s',
+                          }}
+                        >
+                          <span>{isAr ? asset.label.ar : asset.label.en}</span>
+                          <DownloadIcon style={{ width: 16, height: 16, flexShrink: 0 }} />
+                        </a>
+                      ))
+                    ) : (
+                      <p style={{ fontSize: 13, color: C.muted }}>{t('notPublished')}</p>
+                    )}
+                  </div>
                 </div>
               </section>
 
-              {/* Certifications */}
-              <section className="soft-card rounded-3xl p-7">
-                <div className="mb-4">
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.3em] text-[#1e5a96] mb-1">
+              {/* Certifications card */}
+              <section style={{
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                borderRadius: 24,
+                overflow: 'hidden',
+                boxShadow: '0 3px 20px rgba(90,138,150,0.08)',
+              }}>
+                <div style={{ height: 3, background: `linear-gradient(90deg, ${C.tealDark}, ${C.teal})` }} />
+                <div style={{ padding: 'clamp(20px, 3vw, 28px)' }}>
+                  <p style={{
+                    fontSize: 9.5, fontWeight: 800,
+                    letterSpacing: '0.28em', textTransform: 'uppercase' as const,
+                    color: C.tealDark, marginBottom: 6,
+                  }}>
                     {isAr ? 'الجودة والسلامة' : 'Quality & Safety'}
                   </p>
-                  <h2 className="text-[1.1rem] font-extrabold text-[#1a2332]">{t('certifications')}</h2>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {product.certifications.map((cert) => (
-                    <span key={cert} className="brand-chip">
-                      {cert}
-                    </span>
-                  ))}
+                  <h2 style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 18, fontWeight: 800,
+                    color: C.dark, marginBottom: 16,
+                  }}>
+                    {t('certifications')}
+                  </h2>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                    {product.certifications.map((cert) => (
+                      <span
+                        key={cert}
+                        style={{
+                          display: 'inline-flex', alignItems: 'center',
+                          padding: '5px 14px',
+                          fontSize: 10, fontWeight: 700,
+                          letterSpacing: '0.16em', textTransform: 'uppercase' as const,
+                          color: C.tealDark,
+                          background: `${C.teal}14`,
+                          border: `1px solid ${C.teal}30`,
+                          borderRadius: 100,
+                        }}
+                      >
+                        {cert}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </section>
+
             </div>
           </div>
         </div>
