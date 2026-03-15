@@ -28,7 +28,7 @@ const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
       {/* Outer rings */}
       {[0, 1, 2].map((i) => (
-        <motion.div
+        <div
           key={i}
           style={{
             position: 'absolute',
@@ -37,8 +37,6 @@ const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?
             border: `1px solid ${C.teal}`,
             opacity: 0.15 + i * 0.08,
           }}
-          animate={active ? { scale: [1, 1.06, 1], opacity: [0.15 + i * 0.08, 0.35 + i * 0.08, 0.15 + i * 0.08] } : {}}
-          transition={{ duration: 2.8 + i * 0.6, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
         />
       ))}
       {/* Spinning dashed ring — CSS animation (compositor thread) */}
@@ -52,19 +50,17 @@ const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?
           opacity: 0.3,
         }}
       />
-      {/* Glow pulse */}
-      <motion.div
+      {/* Glow */}
+      <div
         style={{
           position: 'absolute',
           inset: 24,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${C.teal}40 0%, transparent 70%)`,
         }}
-        animate={active ? { scale: [0.85, 1.15, 0.85], opacity: [0.6, 1, 0.6] } : {}}
-        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* Core */}
-      <motion.div
+      <div
         style={{
           position: 'absolute',
           inset: 32,
@@ -75,11 +71,9 @@ const PlasmaOrb = memo(function PlasmaOrb({ size = 120, active = true }: { size?
           justifyContent: 'center',
           boxShadow: `0 0 24px ${C.teal}66`,
         }}
-        animate={active ? { boxShadow: [`0 0 16px ${C.teal}44`, `0 0 40px ${C.teal}88`, `0 0 16px ${C.teal}44`] } : {}}
-        transition={{ duration: 2.2, repeat: Infinity }}
       >
         <SparkIcon style={{ width: 18, height: 18, color: '#fff' }} />
-      </motion.div>
+      </div>
     </div>
   );
 });
@@ -99,9 +93,6 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
 
   const isMini = w > 0 && w < 400;
   const cardW = isMini ? Math.floor(w * 0.28) : 148;
-  const centerGap = 70; // half-width of center device
-  const pxIn  = isAr ? w - cardW - 12 : cardW + 12;
-  const pxOut = isAr ? centerGap : w - centerGap;
 
   return (
     <div
@@ -140,9 +131,7 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
         </p>}
         <div style={{ display: 'flex', gap: 4 }}>
           {['#ef4444', '#f59e0b', '#94a3b8'].map((c, i) => (
-            <motion.span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }} />
+            <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }} />
           ))}
         </div>
       </motion.div>
@@ -171,9 +160,7 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
         </p>}
         <div style={{ display: 'flex', gap: 4 }}>
           {['#34d399', '#60a5fa', C.teal].map((c, i) => (
-            <motion.span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }}
-              animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.18 }} />
+            <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: c, display: 'block' }} />
           ))}
         </div>
       </motion.div>
@@ -201,29 +188,7 @@ function PlasmaDiagram({ isAr }: { isAr: boolean }) {
         </motion.div>
       </div>
 
-      {/* ── Particles (rendered only when width is known) ── */}
-      {inView && w > 0 && Array.from({ length: isMini ? 4 : 8 }).map((_, i) => {
-        const yPos = 36 + (i % 4) * 20;
-        return (
-          <motion.span key={`in-${i}`}
-            style={{ position: 'absolute', top: yPos, left: 0, width: 5, height: 5, borderRadius: '50%',
-              background: i % 3 === 0 ? '#ef4444' : i % 3 === 1 ? '#f59e0b' : '#94a3b8' }}
-            animate={{ x: [pxIn, pxOut], opacity: [0, 0.85, 0] }}
-            transition={{ duration: 2.2, delay: i * 0.22, repeat: Infinity, ease: 'linear' }}
-          />
-        );
-      })}
-      {inView && w > 0 && Array.from({ length: isMini ? 4 : 8 }).map((_, i) => {
-        const yPos = (isMini ? 140 : 180) + (i % 4) * 18;
-        return (
-          <motion.span key={`out-${i}`}
-            style={{ position: 'absolute', top: yPos, left: 0, width: 5, height: 5, borderRadius: '50%',
-              background: i % 2 === 0 ? C.teal : '#60a5fa' }}
-            animate={{ x: [pxOut, pxIn], opacity: [0, 1, 0] }}
-            transition={{ duration: 2.4, delay: i * 0.2, repeat: Infinity, ease: 'linear' }}
-          />
-        );
-      })}
+      {/* Particles removed (were repeat: Infinity) */}
     </div>
   );
 }
@@ -557,10 +522,8 @@ export default function TechnologySection() {
                     color: C.tealDark,
                   }}
                 >
-                  <motion.span
+                  <span
                     style={{ width: 5, height: 5, borderRadius: '50%', background: C.teal, display: 'block' }}
-                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.6, repeat: Infinity }}
                   />
                   {isAr ? 'نشط' : 'Live'}
                 </motion.div>

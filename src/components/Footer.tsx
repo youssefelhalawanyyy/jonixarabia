@@ -24,13 +24,11 @@ const C = {
   mutedHov:   'rgba(255,255,255,0.7)',
 };
 
-/* ─── Animated teal dot ─── */
+/* ─── Decorative teal dot ─── */
 function PulseDot({ delay = 0 }: { delay?: number }) {
   return (
-    <motion.span
+    <span
       style={{ width: 5, height: 5, borderRadius: '50%', background: C.teal, display: 'inline-block', flexShrink: 0 }}
-      animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
-      transition={{ duration: 2.4, repeat: Infinity, delay, ease: 'easeInOut' }}
     />
   );
 }
@@ -83,7 +81,7 @@ export default function Footer() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient glow orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 600, height: 600,
           top: -200, right: -100,
@@ -91,10 +89,8 @@ export default function Footer() {
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 350, height: 350,
           bottom: 0, left: '30%',
@@ -102,8 +98,6 @@ export default function Footer() {
           background: `radial-gradient(circle, rgba(90,138,150,0.07) 0%, transparent 70%)`,
           filter: 'blur(60px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
 
@@ -116,8 +110,8 @@ export default function Footer() {
             backgroundSize: '200% 100%',
           }}
           initial={{ width: 0 }}
-          animate={inView ? { width: '100%', backgroundPosition: ['0% 0%', '100% 0%', '0% 0%'] } : {}}
-          transition={{ width: { duration: 1.4, ease: 'easeOut' }, backgroundPosition: { duration: 4, repeat: Infinity, ease: 'linear', delay: 1.4 } }}
+          animate={inView ? { width: '100%' } : {}}
+          transition={{ duration: 1.4, ease: 'easeOut' }}
         />
       </div>
 
@@ -158,13 +152,11 @@ export default function Footer() {
                 <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '0.06em', color: C.white, lineHeight: 1 }}>
                   JONIX ARABIA
                 </p>
-                <motion.p
-                  style={{ marginTop: 5, fontSize: 9, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase' }}
-                  animate={{ color: [C.teal, C.tealLight, C.teal] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                <p
+                  style={{ marginTop: 5, fontSize: 9, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.teal }}
                 >
                   {isAr ? '✦ حياة نقية' : '✦ Pure Living'}
-                </motion.p>
+                </p>
               </div>
             </div>
 
@@ -320,12 +312,7 @@ export default function Footer() {
               }}
               whileHover={{ color: C.teal }}
             >
-              <motion.span
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                ↗
-              </motion.span>
+              <span>↗</span>
               jonixair.com
             </motion.a>
 
@@ -396,18 +383,14 @@ export default function Footer() {
 
           {/* Center word mark */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <motion.span
+            <span
               style={{ height: 1, width: 20, background: C.teal, display: 'block', opacity: 0.35 }}
-              animate={{ width: [20, 32, 20], opacity: [0.35, 0.7, 0.35] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
             <p style={{ fontSize: 8, fontWeight: 800, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.14)' }}>
               {isAr ? 'حياة نقية' : 'Pure Living'}
             </p>
-            <motion.span
+            <span
               style={{ height: 1, width: 20, background: C.teal, display: 'block', opacity: 0.35 }}
-              animate={{ width: [20, 32, 20], opacity: [0.35, 0.7, 0.35] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
             />
           </div>
 

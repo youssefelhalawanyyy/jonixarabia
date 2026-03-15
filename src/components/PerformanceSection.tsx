@@ -201,15 +201,13 @@ function DetailRow({ item, i, inView, isAr }: { item: any; i: number; inView: bo
         y: -2,
       }}
     >
-      {/* Animated dot */}
-      <motion.span
+      {/* Dot */}
+      <span
         style={{
           width: 7, height: 7, borderRadius: '50%',
           background: C.teal, flexShrink: 0,
           marginTop: 5, display: 'block',
         }}
-        animate={{ scale: [1, 1.35, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2.6, repeat: Infinity, delay: i * 0.15 }}
       />
       <p style={{ fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.48)', fontWeight: 300 }}>
         {isAr ? item.ar : item.en}
@@ -273,7 +271,7 @@ export default function PerformanceSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 700, height: 700,
           top: -200, left: '20%',
@@ -281,10 +279,8 @@ export default function PerformanceSection() {
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 65%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.12, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: 0, right: '10%',
@@ -292,21 +288,10 @@ export default function PerformanceSection() {
           background: `radial-gradient(circle, rgba(90,138,150,0.09) 0%, transparent 70%)`,
           filter: 'blur(70px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.18, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
 
-      {/* ── Scanline ── */}
-      <motion.div
-        style={{
-          position: 'absolute', left: 0, right: 0, height: 1,
-          background: `linear-gradient(90deg, transparent, ${C.teal}30, transparent)`,
-          pointerEvents: 'none', zIndex: 2,
-        }}
-        animate={{ top: ['-2px', '100%'] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
-      />
+      {/* ── Scanline removed (was repeat: Infinity) ── */}
 
       {/* ── Content ── */}
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 44px)', position: 'relative', zIndex: 10 }}>
@@ -324,10 +309,8 @@ export default function PerformanceSection() {
               marginBottom: 22,
             }}
           >
-            <motion.div
+            <div
               style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.teal})`, width: 32 }}
-              animate={{ width: [32, 48, 32] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
             <span style={{
               fontSize: 9.5, fontWeight: 800,
@@ -336,10 +319,8 @@ export default function PerformanceSection() {
             }}>
               {isAr ? 'بيانات الأداء المعتمدة' : 'Certified Performance Data'}
             </span>
-            <motion.div
+            <div
               style={{ height: 1, background: `linear-gradient(90deg, ${C.teal}, transparent)`, width: 32 }}
-              animate={{ width: [32, 48, 32] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
             />
           </motion.div>
 

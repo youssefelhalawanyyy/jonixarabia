@@ -203,9 +203,7 @@ export default function HeroSection() {
                   width: 'fit-content',
                 }}
               >
-                <motion.span
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5], boxShadow: ['0 0 0 0 rgba(0,212,255,0.4)', '0 0 0 6px rgba(0,212,255,0)', '0 0 0 0 rgba(0,212,255,0)'] }}
-                  transition={{ duration: 2.2, repeat: Infinity }}
+                <span
                   style={{ width: 7, height: 7, borderRadius: '50%', background: '#00d4ff', flexShrink: 0, display: 'block' }}
                 />
                 <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>
@@ -409,10 +407,8 @@ export default function HeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.2 }}
                   >
-                    <motion.span
+                    <span
                       style={{ width: 5, height: 5, borderRadius: '50%', background: '#00d4ff', display: 'block' }}
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-                      transition={{ duration: 1.6, repeat: Infinity }}
                     />
                     Active
                   </motion.div>
@@ -520,10 +516,8 @@ export default function HeroSection() {
         transition={{ delay: 1.8 }}
         style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, paddingBottom: 32 }}
       >
-        <motion.div
+        <div
           style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)' }}
-          animate={{ scaleY: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         />
         <p style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)' }}>
           {isAr ? 'اكتشف' : 'Scroll'}

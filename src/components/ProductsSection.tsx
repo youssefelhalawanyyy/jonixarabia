@@ -197,25 +197,21 @@ export default function ProductsSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 650, height: 650,
           top: -180, right: -120, borderRadius: '50%',
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: 100, left: -80, borderRadius: '50%',
           background: `radial-gradient(circle, rgba(90,138,150,0.08) 0%, transparent 70%)`,
           filter: 'blur(60px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 2.5, ease: 'easeInOut' }}
       />
 
       {/* ── Dot grid ── */}
@@ -323,25 +319,21 @@ export default function ProductsSection() {
           >
 
             {/* Ambient glow blobs */}
-            <motion.div
+            <div
               style={{
                 position: 'absolute', width: 400, height: 400,
                 top: -100, right: -50, borderRadius: '50%',
                 background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
                 filter: 'blur(60px)', pointerEvents: 'none',
               }}
-              animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             />
-            <motion.div
+            <div
               style={{
                 position: 'absolute', width: 250, height: 250,
                 bottom: -60, left: '25%', borderRadius: '50%',
                 background: `radial-gradient(circle, rgba(30,90,150,0.18) 0%, transparent 70%)`,
                 filter: 'blur(50px)', pointerEvents: 'none',
               }}
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 6, repeat: Infinity, delay: 2, ease: 'easeInOut' }}
             />
 
             {/* Top shimmer */}
@@ -367,10 +359,8 @@ export default function ProductsSection() {
                     display: 'flex', alignItems: 'center', gap: 8,
                   }}
                 >
-                  <motion.span
+                  <span
                     style={{ height: 1, width: 20, background: C.teal, display: 'block', opacity: 0.5 }}
-                    animate={{ width: [20, 32, 20] }}
-                    transition={{ duration: 3, repeat: Infinity }}
                   />
                   {isAr ? 'كتالوج المنتجات' : 'Product Catalog'}
                 </motion.p>

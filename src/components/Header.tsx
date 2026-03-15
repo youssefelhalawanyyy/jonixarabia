@@ -311,10 +311,8 @@ export default function Header() {
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <motion.span
+                  <span
                     style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.8)', display: 'block' }}
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                    transition={{ duration: 2, repeat: Infinity }}
                   />
                   {isAr ? 'طلب استشارة' : 'Get Consultation'}
                 </motion.a>

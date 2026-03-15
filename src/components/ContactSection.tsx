@@ -269,23 +269,19 @@ export default function ContactSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient orbs ── */}
-      <motion.div style={{
+      <div style={{
         position: 'absolute', width: 600, height: 600,
         top: -150, right: -100, borderRadius: '50%',
         background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
         filter: 'blur(80px)', pointerEvents: 'none',
       }}
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div style={{
+      <div style={{
         position: 'absolute', width: 400, height: 400,
         bottom: -80, left: '15%', borderRadius: '50%',
         background: `radial-gradient(circle, rgba(90,138,150,0.08) 0%, transparent 70%)`,
         filter: 'blur(70px)', pointerEvents: 'none',
       }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 3, ease: 'easeInOut' }}
       />
 
 
@@ -558,17 +554,7 @@ export default function ContactSection() {
                 } : {}}
                 whileTap={!submitting ? { scale: 0.98 } : {}}
               >
-                {/* Shimmer sweep */}
-                <motion.div
-                  style={{
-                    position: 'absolute', top: 0, left: '-100%',
-                    width: '60%', height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)',
-                    transform: 'skewX(-20deg)',
-                  }}
-                  animate={{ left: ['−100%', '200%'] }}
-                  transition={{ duration: 2.5, repeat: Infinity, delay: 1 }}
-                />
+                {/* Shimmer sweep removed (was repeat: Infinity) */}
                 {submitting ? (
                   <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                     <motion.span

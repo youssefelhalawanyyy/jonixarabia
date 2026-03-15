@@ -30,14 +30,12 @@ const C = {
 function ShieldBadge({ size = 48 }: { size?: number }) {
   return (
     <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
-      <motion.div
+      <div
         style={{
           position: 'absolute', inset: 0,
           borderRadius: '50%',
           background: `radial-gradient(circle, ${C.tealGlow}, transparent 70%)`,
         }}
-        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div style={{
         position: 'absolute', inset: 6,
@@ -158,10 +156,8 @@ function CertCard({ item, i, isAr }: { item: any; i: number; isAr: boolean }) {
           borderTop: `1px solid rgba(255,255,255,0.07)`,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <motion.span
+            <span
               style={{ width: 6, height: 6, borderRadius: '50%', background: C.teal, display: 'block' }}
-              animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.3 }}
             />
             <span style={{
               fontSize: 9, fontWeight: 700,
@@ -319,7 +315,7 @@ export default function CertificationsSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Background ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 700, height: 700,
           top: -200, right: -150,
@@ -328,10 +324,8 @@ export default function CertificationsSection() {
           filter: 'blur(80px)',
           pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: -100, left: -80,
@@ -340,8 +334,6 @@ export default function CertificationsSection() {
           filter: 'blur(60px)',
           pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
 

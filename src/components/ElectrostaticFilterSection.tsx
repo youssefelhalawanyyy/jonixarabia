@@ -143,13 +143,11 @@ function InfoCard({
                 transition: 'background 0.2s, border-color 0.2s',
               }}
             >
-              <motion.span
+              <span
                 style={{
                   width: 6, height: 6, borderRadius: '50%',
                   background: accent, flexShrink: 0, marginTop: 5, display: 'block',
                 }}
-                animate={{ scale: [1, 1.35, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2.5, repeat: Infinity, delay: j * 0.2 }}
               />
               <p style={{ fontSize: 13, lineHeight: 1.65, color: C.muted, fontWeight: 400 }}>
                 {pick(locale, item)}
@@ -204,10 +202,8 @@ function PathogenCard({
       <div style={{ padding: '18px 18px 16px' }}>
         {/* Group title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 13 }}>
-          <motion.span
+          <span
             style={{ width: 8, height: 8, borderRadius: '50%', background: accent, display: 'block', flexShrink: 0 }}
-            animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.3 }}
           />
           <h4 style={{
             fontSize: 10, fontWeight: 800,
@@ -300,7 +296,7 @@ export default function ElectrostaticFilterSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Subtle ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 700, height: 700,
           top: -200, right: -150,
@@ -308,10 +304,8 @@ export default function ElectrostaticFilterSection() {
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: 100, left: -100,
@@ -319,8 +313,6 @@ export default function ElectrostaticFilterSection() {
           background: `radial-gradient(circle, rgba(90,138,150,0.08) 0%, transparent 70%)`,
           filter: 'blur(60px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 2, ease: 'easeInOut' }}
       />
 
       {/* ── Dot grid texture ── */}
@@ -463,7 +455,7 @@ export default function ElectrostaticFilterSection() {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <motion.div
+              <div
                 style={{
                   width: 40, height: 40, borderRadius: 12,
                   background: `${C.teal}15`,
@@ -471,11 +463,9 @@ export default function ElectrostaticFilterSection() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 18, flexShrink: 0,
                 }}
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               >
                 🛡
-              </motion.div>
+              </div>
               <div>
                 <p style={{ fontSize: 13.5, fontWeight: 700, color: C.dark, marginBottom: 2 }}>
                   {isAr ? 'اختبار معتمد بالكامل' : 'Fully Certified Testing'}

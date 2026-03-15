@@ -48,14 +48,12 @@ function AnimatedGlobe() {
   return (
     <div style={{ position: 'relative', width: 72, height: 72 }}>
       {/* Outer ring */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', inset: 0, borderRadius: '50%',
           border: `1.5px solid ${C.teal}`,
           opacity: 0.2,
         }}
-        animate={{ scale: [1, 1.18, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* Mid ring */}
       <motion.div
@@ -108,25 +106,21 @@ export default function MENASection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 600, height: 600,
           top: -150, right: -100, borderRadius: '50%',
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: 0, left: -80, borderRadius: '50%',
           background: `radial-gradient(circle, rgba(90,138,150,0.08) 0%, transparent 70%)`,
           filter: 'blur(60px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 2.5, ease: 'easeInOut' }}
       />
 
       {/* ── Dot grid ── */}
@@ -440,7 +434,7 @@ export default function MENASection() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <motion.div
+            <div
               style={{
                 width: 40, height: 40, borderRadius: 12,
                 background: `${C.teal}15`,
@@ -448,11 +442,9 @@ export default function MENASection() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 18, flexShrink: 0,
               }}
-              animate={{ rotate: [0, 8, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
               🌍
-            </motion.div>
+            </div>
             <div>
               <p style={{ fontSize: 13.5, fontWeight: 700, color: C.dark, marginBottom: 2 }}>
                 {isAr ? 'نطاق إقليمي متوسع' : 'Expanding Regional Reach'}

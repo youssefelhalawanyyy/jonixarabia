@@ -99,10 +99,8 @@ function NowCard({ item, i, locale, inView }: { item: { en: string; ar: string }
         />
       </div>
       <div style={{ padding: '14px 16px 14px 20px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-        <motion.span
+        <span
           style={{ width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0, marginTop: 5, display: 'block' }}
-          animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.15 }}
         />
         <p style={{ fontSize: 13, lineHeight: 1.7, color: C.muted, fontWeight: 400 }}>
           {pick(locale, item)}
@@ -230,10 +228,8 @@ function GroupCard({
       </div>
       <div style={{ padding: '22px 22px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-          <motion.span
+          <span
             style={{ width: 9, height: 9, borderRadius: '50%', background: accent, display: 'block', flexShrink: 0 }}
-            animate={{ scale: [1, 1.35, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.25 }}
           />
           <h3 style={{
             fontFamily: "'Playfair Display', serif",
@@ -333,10 +329,8 @@ function RegionSidebar({
                 boxShadow: '0 1px 4px rgba(90,138,150,0.05)',
               }}
             >
-              <motion.span
+              <span
                 style={{ width: 6, height: 6, borderRadius: '50%', background: C.teal, flexShrink: 0, marginTop: 5, display: 'block' }}
-                animate={{ scale: [1, 1.35, 1], opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.18 }}
               />
               <p style={{ fontSize: 12, lineHeight: 1.65, color: C.muted, fontWeight: 400 }}>
                 {pick(locale, item)}
@@ -378,25 +372,21 @@ export default function InstallationsSection() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* ── Ambient orbs ── */}
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 700, height: 700,
           top: -200, right: -150, borderRadius: '50%',
           background: `radial-gradient(circle, ${C.tealGlow} 0%, transparent 70%)`,
           filter: 'blur(80px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
+      <div
         style={{
           position: 'absolute', width: 400, height: 400,
           bottom: 100, left: -80, borderRadius: '50%',
           background: `radial-gradient(circle, rgba(90,138,150,0.08) 0%, transparent 70%)`,
           filter: 'blur(60px)', pointerEvents: 'none',
         }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 2.5, ease: 'easeInOut' }}
       />
 
       {/* ── Dot grid ── */}
@@ -525,7 +515,7 @@ export default function InstallationsSection() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <motion.div
+            <div
               style={{
                 width: 40, height: 40, borderRadius: 12,
                 background: `${C.teal}15`,
@@ -533,11 +523,9 @@ export default function InstallationsSection() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 18, flexShrink: 0,
               }}
-              animate={{ scale: [1, 1.08, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             >
               📍
-            </motion.div>
+            </div>
             <div>
               <p style={{ fontSize: 13.5, fontWeight: 700, color: C.dark, marginBottom: 2 }}>
                 {isAr ? 'تغطية إقليمية موسعة' : 'Expanding Regional Coverage'}
