@@ -4,52 +4,54 @@ import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { applications } from '@/data/catalog';
 import { BuildingIcon, ShieldIcon, SparkIcon } from '@/components/icons';
+import BlurText from '@/components/BlurText';
 
-const iconSet = [BuildingIcon, ShieldIcon, SparkIcon, BuildingIcon, ShieldIcon, SparkIcon];
+const ICONS = [BuildingIcon, ShieldIcon, SparkIcon, BuildingIcon, ShieldIcon, SparkIcon];
+const COLORS = ['#1e5a96', '#2d7bb8', '#00c4ef', '#8eb2bb', '#1e5a96', '#2d7bb8'];
 
 export default function ApplicationsSection() {
   const t = useTranslations('applications');
   const locale = useLocale();
+  const isAr = locale === 'ar';
 
   return (
-    <section id="applications" className="section-spacer">
+    <section id="applications" className="section-pad bg-white">
       <div className="container-shell">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.45 }}
-          className="text-3xl font-extrabold text-slate-900 sm:text-4xl"
-        >
-          {t('title')}
-        </motion.h2>
+        <p className="section-label">{isAr ? 'تطبيقات الصناعة' : 'Industry Applications'}</p>
+        <h2 className="heading-xl">
+          <BlurText text={t('title')} delay={80} animateBy="words" direction="top" />
+        </h2>
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.45, delay: 0.08 }}
-          className="mt-3 max-w-3xl text-base text-[var(--jonix-slate-600)]"
+          viewport={{ once: true }}
+          transition={{ delay: 0.12 }}
+          className="body-text mt-4 max-w-2xl"
         >
           {t('subtitle')}
         </motion.p>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {applications.map((item, index) => {
-            const Icon = iconSet[index];
+        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {applications.map((item, i) => {
+            const Icon = ICONS[i];
+            const color = COLORS[i];
             return (
               <motion.article
                 key={item.en}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.36, delay: index * 0.04 }}
-                className="soft-card rounded-2xl p-5"
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="card p-6"
               >
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--jonix-blue-100)] text-[var(--jonix-blue-700)]">
+                <div
+                  className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl text-white"
+                  style={{ background: color }}
+                >
                   <Icon className="h-5 w-5" />
                 </div>
-                <p className="mt-3 text-sm font-semibold leading-relaxed text-slate-700">
-                  {locale === 'ar' ? item.ar : item.en}
+                <p className="text-[0.88rem] font-semibold leading-relaxed text-[#5a6a7a]">
+                  {isAr ? item.ar : item.en}
                 </p>
               </motion.article>
             );

@@ -13,19 +13,21 @@ import ContactSection from '@/components/ContactSection';
 
 export default function LocalizedHome() {
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <Header />
-      <HeroSection />
-      <TechnologySection />
-      <ElectrostaticFilterSection />
-      <PerformanceSection />
-      <ProductsSection />
-      <CertificationsSection />
-      <InstallationsSection />
-      <ApplicationsSection />
-      <MENASection />
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <TechnologySection />
+        <ElectrostaticFilterSection />
+        <PerformanceSection />
+        <ProductsSection />
+        <CertificationsSection />
+        <InstallationsSection />
+        <ApplicationsSection />
+        <MENASection />
+        <ContactSection />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
