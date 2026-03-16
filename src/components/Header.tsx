@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { partnerLogo } from '@/data/catalog';
@@ -33,17 +33,16 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const isAr = locale === 'ar';
 
-  const { scrollY } = useScroll();
-
   /* Track scroll position for header style change */
   useEffect(() => {
-    const unsub = scrollY.on('change', (v) => setScrolled(v > 20));
-    return unsub;
-  }, [scrollY]);
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
 
   /* Intersection observer for active section */
   useEffect(() => {
-    const ids = ['technology', 'electrostatic', 'certifications', 'applications', 'contact'];
+    const ids = ['technology', 'certifications', 'applications', 'contact'];
     const observers: IntersectionObserver[] = [];
     ids.forEach((id) => {
       const el = document.getElementById(id);
@@ -60,9 +59,8 @@ export default function Header() {
 
   const navItems = useMemo(
     () => [
-      { label: isAr ? 'التكنولوجيا' : 'Technology',         href: `/${locale}#technology`,      id: 'technology' },
-      { label: isAr ? 'الفلتر الكهروستاتيكي' : 'Electrostatic', href: `/${locale}#electrostatic`, id: 'electrostatic' },
-      { label: isAr ? 'الاعتمادات' : 'Certifications',      href: `/${locale}#certifications`,  id: 'certifications' },
+      { label: isAr ? 'التكنولوجيا' : 'Technology',    href: `/${locale}#technology`,     id: 'technology' },
+      { label: isAr ? 'الاعتمادات' : 'Certifications', href: `/${locale}#certifications`, id: 'certifications' },
       { label: isAr ? 'التطبيقات' : 'Applications',         href: `/${locale}#applications`,    id: 'applications' },
       { label: isAr ? 'المنتجات' : 'Products',               href: `/${locale}/products`,        id: 'products' },
       { label: isAr ? 'تواصل معنا' : 'Contact',             href: `/${locale}#contact`,          id: 'contact' },

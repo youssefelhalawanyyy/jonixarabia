@@ -1,15 +1,20 @@
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import TechnologySection from '@/components/TechnologySection';
-import ElectrostaticFilterSection from '@/components/ElectrostaticFilterSection';
-import PerformanceSection from '@/components/PerformanceSection';
-import ProductsSection from '@/components/ProductsSection';
-import CertificationsSection from '@/components/CertificationsSection';
-import InstallationsSection from '@/components/InstallationsSection';
-import ApplicationsSection from '@/components/ApplicationsSection';
-import MENASection from '@/components/MENASection';
-import ContactSection from '@/components/ContactSection';
+
+/* ── Lazy-load every below-fold section ──
+   Each becomes its own JS chunk — browser only downloads + parses it
+   when Next.js is about to render it, not on initial page load. */
+const ElectrostaticFilterSection = dynamic(() => import('@/components/ElectrostaticFilterSection'));
+const PerformanceSection          = dynamic(() => import('@/components/PerformanceSection'));
+const ProductsSection             = dynamic(() => import('@/components/ProductsSection'));
+const CertificationsSection       = dynamic(() => import('@/components/CertificationsSection'));
+const InstallationsSection        = dynamic(() => import('@/components/InstallationsSection'));
+const ApplicationsSection         = dynamic(() => import('@/components/ApplicationsSection'));
+const MENASection                 = dynamic(() => import('@/components/MENASection'));
+const ContactSection              = dynamic(() => import('@/components/ContactSection'));
+const Footer                      = dynamic(() => import('@/components/Footer'));
 
 export default function LocalizedHome() {
   return (
