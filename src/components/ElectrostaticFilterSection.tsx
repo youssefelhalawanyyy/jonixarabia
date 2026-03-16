@@ -353,7 +353,7 @@ export default function ElectrostaticFilterSection() {
               { num: 99.9999, dec: 4, suffix: '%', en_label: 'Virus Reduction', ar_label: 'خفض الفيروسات', color: C.tealDark },
               { num: 99.99,   dec: 2, suffix: '%', en_label: 'Pollutants Removed', ar_label: 'إزالة الملوثات', color: C.teal },
               { num: 10,      dec: 0, suffix: ' W', en_label: 'Power Consumption', ar_label: 'استهلاك الطاقة', color: C.charcoal },
-              { num: 85,      dec: 0, suffix: ' m²', en_label: 'Max Coverage (Cube)', ar_label: 'أقصى تغطية (Cube)', color: C.tealLight },
+              { num: 100,      dec: 0, suffix: ' %', en_label: 'Pure Living', ar_label: 'حياة نقية', color: C.tealLight },
             ].map((stat, i) => (
               <motion.div
                 key={i}
