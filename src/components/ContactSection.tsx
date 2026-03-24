@@ -377,9 +377,9 @@ export default function ContactSection() {
                 icon={<MailIcon style={{ width: 16, height: 16, color: C.teal }} />}
                 title={isAr ? 'البريد الإلكتروني' : 'Email'}
               >
-                <p style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em' }}>
+                <a href="mailto:INFO@CLASS-ATRADING.COM" style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em', textDecoration: 'none' }}>
                   INFO@CLASS-ATRADING.COM
-                </p>
+                </a>
               </InfoCard>
 
               <InfoCard
@@ -387,9 +387,9 @@ export default function ContactSection() {
                 icon={<PhoneIcon style={{ width: 16, height: 16, color: C.teal }} />}
                 title={isAr ? 'هاتف' : 'Phone'}
               >
-                <p style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em' }}>
+                <a href="tel:+20223493022" style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em', textDecoration: 'none' }}>
                   +202-234-930-22
-                </p>
+                </a>
               </InfoCard>
 
               <InfoCard
